@@ -1,0 +1,29 @@
+{
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false,
+    "proseWrap": "always",
+    "overrides": [
+        {
+            "files": "*.tsx",
+            "options": {
+                "printWidth": 500,
+                "tabWidth": 4,
+                "useTabs": false,
+                "singleQuote": false,
+                "bracketSpacing": true
+            }
+        },
+        {
+            "files": "*.ts",
+            "options": {
+                "printWidth": 150,
+                "tabWidth": 4,
+                "useTabs": false,
+                "singleQuote": false,
+                "bracketSpacing": true
+            }
+        }
+    ]
+}
