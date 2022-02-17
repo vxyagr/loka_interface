@@ -18,7 +18,7 @@ const Footer: FunctionComponent<FooterProps> = ({}) => {
             <div className="flex flex-col justify-center gap-4 px-4 text-sm sm:flex-row sm:items-center sm:self-center ">
                 <Link href="/">
                     <a>
-                        <span className="traking-tight font-inter text-gray-light-10 dark:text-gray-dark-10">Risedle Labs</span>
+                        <span className="traking-tight font-inter text-gray-light-10 dark:text-gray-dark-10">LoKa Labs</span>
                     </a>
                 </Link>
                 <div className="flex items-center gap-2 text-gray-light-12 dark:text-gray-dark-12">
