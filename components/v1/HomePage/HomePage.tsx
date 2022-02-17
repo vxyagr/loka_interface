@@ -9,6 +9,7 @@ import HeroFooter from "./HeroFooter";
 import Navigation from "./Navigation";
 import SubHero from "./SubHero";
 import HomePageMeta from "./HomePageMeta";
+import Axios from "axios";
 
 /**
  * HomePageProps is a React Component properties that passed to React Component HomePage

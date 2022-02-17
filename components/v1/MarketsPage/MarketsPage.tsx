@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ethers, providers } from "ethers";
 import Web3 from "web3";
 import Scroll from "./Scroll";
+import Axios from "axios";
 
 import Favicon from "../Favicon";
 import Footer from "../Footer";
@@ -23,6 +24,7 @@ import { Button } from "../../../stories/Button";
  */
 type MarketsPageProps = {};
 var spply = 0;
+var first = true;
 /**
  * MarketsPage is just yet another react component
  *
@@ -46,7 +48,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("./nftAbi.json");
-    const contractAddres = "0x3b26096Bdac16d51749b8DedcF2CA0579EbEf1B6";
+    const contractAddres = "0xd9145CCE52D386f254917e481eB44e9943F39138";
 
     // console.log(accountsList[0])
 
@@ -59,13 +61,16 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     const getTotalSupply = async () => {
         var supply = await contract.totalSupply();
         setTotalSupply(supply);
-        console.log("TOTAL SUPPLY" + totalSupply);
+        console.log("TOTAL SUPPLY " + totalSupply);
         var num = parseInt(totalSupply.toString()) + 1;
-        var uri_ = '{"name": "LoKa #' + num + '","image": "https://drive.google.com/file/d/10ZEChwFg5uB1_RkbaJ7kO8SfwDLRflrS/view?usp=sharing","attributes": [{"trait_type": "Rig Tier", "value": "Dragon"},{"trait_type": "Multiplier", "value": "1.7"}]}';
+        var uri_ = '{"name": "LoKa #' + num + '","image": "https://voyager.co.id/img/LOKA_NFT.jpg","attributes": [{"trait_type": "Rig Tier", "value": "Dragon"},{"trait_type": "Multiplier", "value": "1.7"}]}';
         setURI(uri_);
         //setIsMinted(result);
     };
-    getTotalSupply();
+    if (first && totalSupply > 0) {
+        getTotalSupply();
+        first = false;
+    }
     const getMintedStatus = async () => {
         const result = await contract.isContentOwned(uri);
         console.log(result);
@@ -81,7 +86,28 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
 
         await result.wait();
     };
+    const axios = require("axios");
+    // const request = require("request");
+    const [miningBalance, setMiningBalance] = useState(0);
+    const [monthlyMiningBalance, setMonthlyMiningBalance] = useState(0);
+    const [averageHashrate, setAverageHashrate] = useState(0);
+    const [workers, setWorkers] = useState(0);
 
+    const showYield = async () => {
+        const account_address = "0xc72483d6aa551f9ab22b04ce2194e35f4e286c6c";
+        const request_url = `https://eth.2miners.com/api/accounts/${account_address}`;
+        const result = await axios.get(request_url);
+        const daily = result.data["24hreward"] / 1000000000;
+        const monthly = 30 * (result.data["24hreward"] / 1000000000);
+        const hashrate = result.data["hashrate"] / 1000000000;
+        const workersOnline = result.data["workersOnline"];
+        setMiningBalance(daily);
+        setMonthlyMiningBalance(monthly);
+        setAverageHashrate(hashrate);
+        setWorkers(workersOnline);
+        console.log();
+    };
+    showYield();
     if (account) {
         return (
             <div className="relative flex h-full min-h-screen w-full flex-col overflow-hidden bg-gray-light-1 font-inter dark:bg-gray-dark-1">
@@ -124,16 +150,24 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                         <div className="flex flex-col space-y-6 border-b border-dashed border-gray-light-9 pb-6 dark:border-gray-dark-9">
                             <div className="text-center">
                                 <h1 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[32px]">Your LoKa NFTs </h1>
-                                <h1>
-                                    {totalSupply.toString()} <a href="#">+</a>
-                                    <button
-                                        onClick={() => {
-                                            mintToken();
-                                        }}
-                                    >
-                                        Mint
-                                    </button>
-                                </h1>
+
+                                <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
+                                    <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                        <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">You have {totalSupply.toString()} LoKas </h1>
+                                        <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
+                                            You can mint more by click this mint button :{" "}
+                                            <a
+                                                onClick={() => {
+                                                    mintToken();
+                                                }}
+                                                className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
+                                            >
+                                                Mint
+                                            </a>
+                                        </p>
+                                        <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,6 +177,39 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                         <div className="text-center">
                             <h1 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[32px]">Dashboard</h1>
                         </div>
+
+                        <div className="m-auto max-w-4xl px-4">
+                            <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
+                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                    <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{miningBalance.toString()} ETH</h1>
+                                    <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">This is your estimated daily profit from LoKa mining rigs based on your NFTs</p>
+                                    <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
+                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                    <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{monthlyMiningBalance.toString()} ETH</h1>
+                                    <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">This is your estimated monthly profit from LoKa mining rigs based on your NFTs</p>
+                                    <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
+                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                    <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{averageHashrate.toString()} GH/s</h1>
+                                    <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">Average hashrate within the last 24 hours</p>
+                                    <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
+                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                    <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{workers.toString()} </h1>
+                                    <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">Workers Online</p>
+                                    <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
+                                </div>
+                            </div>
+                        </div>
+
                         {/* Cards loading state */}
                         {showLoading && (
                             <div className="grid grid-cols-1 gap-4">

@@ -66,7 +66,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                 </Link>
             </div>
             <div className="hidden flex-none flex-row gap-8 text-center sm:flex">
-                <Link href={"/markets"}>
+                <Link href={"/loka"}>
                     <a className="text-sm text-gray-light-12 dark:text-gray-dark-12 sm:self-center">Dashboard &#8599;</a>
                 </Link>
 

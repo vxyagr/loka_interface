@@ -28,19 +28,19 @@ const Footer: FunctionComponent<FooterProps> = ({}) => {
                             fill="currentColor"
                         />
                     </svg>
-                    <a href={RisedleLinks.docs} target="_blank" rel="noopener noreferrer">
+                    <a href="#" target="_blank" rel="noopener noreferrer">
                         Docs &#8599;
                     </a>
                 </div>
             </div>
             <div className="mt-8 flex grow flex-col gap-y-4 px-4 sm:my-0 sm:flex-row sm:justify-end sm:gap-x-4">
-                <Link href={RisedleLinks.twitter}>
+                <Link href="#">
                     <a className="text-sm text-gray-light-12 dark:text-gray-dark-12 sm:self-center">Twitter &#8599;</a>
                 </Link>
-                <Link href={RisedleLinks.discord}>
+                <Link href="#">
                     <a className="text-sm text-gray-light-12 dark:text-gray-dark-12 sm:self-center">Discord &#8599;</a>
                 </Link>
-                <Link href={RisedleLinks.github}>
+                <Link href="#">
                     <a className="text-sm text-gray-light-12 dark:text-gray-dark-12 sm:self-center">Github &#8599;</a>
                 </Link>
             </div>
