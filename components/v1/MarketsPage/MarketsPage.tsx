@@ -56,7 +56,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     const [uri, setURI] = useState("");
 
     const contract = new ethers.Contract(contractAddres, contractAbi, signer);
-    const connection = contract.connect(signer);
+    const connection = contract.connect(contract.signer);
     const [totalSupply, setTotalSupply] = useState(0);
     const getTotalSupply = async () => {
         var supply = await contract.totalSupply();
