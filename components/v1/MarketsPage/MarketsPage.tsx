@@ -153,10 +153,10 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                 <h1 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[32px]">Your LoKa NFTs </h1>
 
                                 <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
-                                    <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                    <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
                                         <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">You have {totalSupply.toString()} LoKas </h1>
                                         <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
-                                            You can mint more by click this mint button :{" "}
+                                            You can mint more by clicking this mint button :{" "}
                                             <a
                                                 onClick={() => {
                                                     mintToken();
@@ -181,7 +181,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
 
                         <div className="m-auto max-w-4xl px-4">
                             <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
-                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
                                     <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{miningBalance.toString()} ETH</h1>
                                     <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">This is your estimated daily profit from LoKa mining rigs based on your NFTs</p>
                                     <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
@@ -189,21 +189,21 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                             </div>
 
                             <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
-                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
                                     <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{monthlyMiningBalance.toString()} ETH</h1>
                                     <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">This is your estimated monthly profit from LoKa mining rigs based on your NFTs</p>
                                     <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
                                 </div>
                             </div>
                             <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
-                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
                                     <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{averageHashrate.toString()} GH/s</h1>
                                     <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">Average hashrate within the last 24 hours</p>
                                     <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
                                 </div>
                             </div>
                             <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
-                                <div className="px-4 py-6 sm:basis-2/4 sm:pl-8">
+                                <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
                                     <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{workers.toString()} </h1>
                                     <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">Workers Online</p>
                                     <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
