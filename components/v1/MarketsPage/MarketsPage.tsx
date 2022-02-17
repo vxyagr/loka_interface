@@ -48,7 +48,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("./nftAbi.json");
-    const contractAddres = "0xA23069672CAD2b68E9664B64c8Cbb0C643996183";
+    const contractAddres = "0x2c3269b8eEb629d05C50f234baE1e5cBA0ff3062";
 
     // console.log(accountsList[0])
 
@@ -79,7 +79,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
 
     const mintToken = async () => {
         console.log("MINTING " + uri);
-        const addr = connection.address;
+        const addr = account;
         const result = await contract.mintNFT(addr, uri, {
             value: ethers.utils.parseEther("0.001"),
         });
