@@ -67,7 +67,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
         setURI(uri_);
         //setIsMinted(result);
     };
-    if (first && totalSupply > 0) {
+    if (totalSupply <= 0) {
         getTotalSupply();
         first = false;
     }
@@ -85,6 +85,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
         });
 
         await result.wait();
+        getTotalSupply();
     };
     const axios = require("axios");
     // const request = require("request");
