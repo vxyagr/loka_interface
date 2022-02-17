@@ -25,6 +25,7 @@ import { Button } from "../../../stories/Button";
 type MarketsPageProps = {};
 var spply = 0;
 var first = true;
+var check = false;
 /**
  * MarketsPage is just yet another react component
  *
@@ -48,7 +49,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("./nftAbi.json");
-    const contractAddres = "0x2c3269b8eEb629d05C50f234baE1e5cBA0ff3062";
+    const contractAddres = "0x132572863331B6fdA8876a13F92B83CB80aA0995";
 
     // console.log(accountsList[0])
 
@@ -57,10 +58,13 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
 
     const contract = new ethers.Contract(contractAddres, contractAbi, signer);
     const connection = contract.connect(contract.signer);
+    const [allToken, setAllToken] = useState(0);
     const [totalSupply, setTotalSupply] = useState(0);
     const getTotalSupply = async () => {
-        var supply = await contract.totalSupply();
+        var supply = await contract.tokenQuantity(account);
+        var allSupply = await contract.totalSupply();
         setTotalSupply(supply);
+        setAllToken(allSupply);
         console.log("TOTAL SUPPLY " + totalSupply);
         var num = parseInt(totalSupply.toString()) + 1;
         var uri_ = '{"name": "LoKa #' + num + '","image": "https://voyager.co.id/img/LOKA_NFT.jpg","attributes": [{"trait_type": "Rig Tier", "value": "Dragon"},{"trait_type": "Multiplier", "value": "1.7"}]}';
@@ -93,15 +97,18 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     const [monthlyMiningBalance, setMonthlyMiningBalance] = useState(0);
     const [averageHashrate, setAverageHashrate] = useState(0);
     const [workers, setWorkers] = useState(0);
+    const [ownerProfit, setOwnerProfit] = useState(0);
 
     const showYield = async () => {
         const account_address = "0xc72483d6aa551f9ab22b04ce2194e35f4e286c6c";
         const request_url = `https://eth.2miners.com/api/accounts/${account_address}`;
         const result = await axios.get(request_url);
         const daily = result.data["24hreward"] / 1000000000;
-        const monthly = 30 * (result.data["24hreward"] / 1000000000);
+
         const hashrate = result.data["hashrate"] / 1000000000;
         const workersOnline = result.data["workersOnline"];
+        setOwnerProfit(daily * (totalSupply / allToken));
+        const monthly = 30 * ownerProfit;
         setMiningBalance(daily);
         setMonthlyMiningBalance(monthly);
         setAverageHashrate(hashrate);
@@ -182,8 +189,10 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                         <div className="m-auto max-w-4xl px-4">
                             <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
                                 <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
-                                    <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{miningBalance.toString()} ETH</h1>
-                                    <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">This is your estimated daily profit from LoKa mining rigs based on your NFTs</p>
+                                    <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{ownerProfit.toString()} ETH</h1>
+                                    <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
+                                        This is your estimated daily profit from LoKa mining rigs based on your NFTs<br></br>Our total mining yield is {miningBalance.toString()}
+                                    </p>
                                     <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
                                 </div>
                             </div>
