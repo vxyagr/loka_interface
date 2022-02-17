@@ -35,10 +35,7 @@ const HomePage: FunctionComponent<HomePageProps> = ({}) => {
             <Favicon />
             <Navigation />
             <Hero />
-            <SubHero />
             <FeatureCardOneColumn />
-
-            <HeroFooter />
             <div className="mt-16">
                 <Footer />
             </div>
