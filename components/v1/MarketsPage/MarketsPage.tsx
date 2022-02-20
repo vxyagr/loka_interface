@@ -49,7 +49,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("./nftAbi.json");
-    const contractAddres = "0x132572863331B6fdA8876a13F92B83CB80aA0995";
+    const contractAddres = "0xAd09cB3d3e53be8191b70393bdd4BB59C53c3949";
 
     // console.log(accountsList[0])
 
@@ -71,10 +71,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
         setURI(uri_);
         //setIsMinted(result);
     };
-    if (totalSupply <= 0) {
-        getTotalSupply();
-        first = false;
-    }
+
     const getMintedStatus = async () => {
         const result = await contract.isContentOwned(uri);
         console.log(result);
@@ -84,12 +81,30 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     const mintToken = async () => {
         console.log("MINTING " + uri);
         const addr = account;
-        const result = await contract.mintNFT(addr, uri, {
+        const result = await contract.mintNFT(uri, {
             value: ethers.utils.parseEther("0.001"),
         });
 
         await result.wait();
         getTotalSupply();
+    };
+    const [ethYield, setEthYield] = useState(0);
+    const getYield = async () => {
+        const addr = account;
+        var theYield = await contract.getYield();
+        setEthYield(theYield / 1000000000);
+    };
+    if (first || uri == "") {
+        getTotalSupply();
+        getYield();
+        first = false;
+    }
+    const claim = async () => {
+        console.log("CLAIMING " + uri);
+        const addr = account;
+        await contract.claimYield();
+
+        getYield();
     };
     const axios = require("axios");
     // const request = require("request");
@@ -159,18 +174,28 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                             <div className="text-center">
                                 <h1 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[32px]">Your LoKa NFTs </h1>
 
-                                <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
-                                    <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
-                                        <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">You have {totalSupply.toString()} LoKas </h1>
+                                <div className="overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
+                                    <div className="sm:basis-8/8 px-4 py-6 text-center sm:pl-8">
+                                        <h1 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">You have {totalSupply.toString()} LoKas </h1>
                                         <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
-                                            You can mint more by clicking this mint button :{" "}
+                                            {" "}
                                             <a
                                                 onClick={() => {
                                                     mintToken();
                                                 }}
                                                 className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
                                             >
-                                                Mint
+                                                Mint +1 LoKa
+                                            </a>{" "}
+                                            <br />
+                                            <br />
+                                            <a
+                                                onClick={() => {
+                                                    claim();
+                                                }}
+                                                className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
+                                            >
+                                                Claim {ethYield} ETH
                                             </a>
                                         </p>
                                         <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
@@ -181,13 +206,13 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                     </div>
                     {/* Cards */}
 
-                    <div className="container mx-auto mt-6 max-w-[400px] px-4 sm:mt-8">
+                    <div className="container mx-auto mt-6 max-w-[800px] px-4 sm:mt-8">
                         <div className="text-center">
                             <h1 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[32px]">Dashboard</h1>
                         </div>
 
                         <div className="m-auto max-w-4xl px-4">
-                            <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
+                            <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:basis-1/4 sm:flex-row sm:items-center">
                                 <div className="sm:basis-4/4 px-4 py-6 sm:pl-8">
                                     <h1 className="m-0 mb-4 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">{ownerProfit.toString()} ETH</h1>
                                     <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
