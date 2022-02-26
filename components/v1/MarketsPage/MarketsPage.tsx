@@ -60,10 +60,12 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     const connection = contract.connect(contract.signer);
     const [allToken, setAllToken] = useState(0);
     const [ownedToken, setOwnedToken] = useState(0);
+    const [maxSupply, setMaxSupply] = useState(0);
     const getOwnedToken = async () => {
         var supply = await contract.tokenQuantity(account);
         var allSupply = await contract.totalSupply();
-        var maxSupply = await contract.showTotalSupply();
+        var maxSupplyVar = await contract.showTotalSupply();
+        setMaxSupply(maxSupplyVar);
         setOwnedToken(supply);
         setAllToken(allSupply);
         console.log("Owned Token " + ownedToken);
@@ -106,7 +108,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
         getYield();
         first = false;
     }
-    const claim = async () => {
+    const claimYield = async () => {
         console.log("CLAIMING " + uri);
         const addr = account;
         await contract.claimYield();
@@ -184,7 +186,9 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                 <div className="overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
                                     <div className="sm:basis-8/8 px-4 py-6 text-center sm:pl-8">
                                         <h1 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">You have {ownedToken.toString()} LoKas </h1>
-                                        <h3 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">There are {allToken.toString()} / {maxSupply.toString()} LoKas available </h3>
+                                        <h3 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">
+                                            There are {allToken.toString()} / {maxSupply.toString()} LoKas available{" "}
+                                        </h3>
                                         <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
                                             {" "}
                                             <a
