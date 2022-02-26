@@ -66,7 +66,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
         var yields = await contract.getCurrentYield();
         setcurrentYield(yields);
         console.log("CURRENT YIELD " + currentYield);
-    }
+    };
 
     const getTotalSupply = async () => {
         var supply = await contract.tokenQuantity(account);
@@ -182,19 +182,21 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                         <div className="flex flex-col space-y-6 border-b border-dashed border-gray-light-9 pb-6 dark:border-gray-dark-9">
                             <div className="text-center">
                                 <h1 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[32px]">Howdy Baws! </h1>
-                                <h3 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[20px]">Currently you are yielding {currentYield.toString} from  </h3>
+                                <h3 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[20px]">Currently you are yielding {currentYield.toString} from </h3>
 
                                 <div className="overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
                                     <div className="sm:basis-8/8 px-4 py-6 text-center sm:pl-8">
                                         <h1 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg"> </h1>
                                         <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
                                             {" "}
-                                            <a className="text-gray-900 dark:text-gray-dark-12">Yield Amount </a><input type="Text" id="yieldInput" onChange={(e) => setEthYield(e.target.value)} ></input>
-                                            <br />{""}
+                                            <a className="text-gray-900 dark:text-gray-dark-12">Yield Amount </a>
+                                            <input type="Text" id="yieldInput" onChange={(e) => setEthYield(parseInt(e.target.value))}></input>
+                                            <br />
+                                            {""}
                                             <a
                                                 onClick={() => {
                                                     // setCurrentYield(ethYield)
-                                                    console.log(`Currently you're setting for yielding amount ${+ethYield} eth`)
+                                                    console.log(`Currently you're setting for yielding amount ${+ethYield} eth`);
                                                 }}
                                                 className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
                                             >
@@ -204,7 +206,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                                 onClick={() => {
                                                     // const newyield = await contract.getCurrentYield();
                                                     // disburseYield(newyield);
-                                                    console.log(`Yielding has been updated to ${+ethYield} eth`)
+                                                    console.log(`Yielding has been updated to ${+ethYield} eth`);
                                                 }}
                                                 className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
                                             >
@@ -222,12 +224,12 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                         <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
                                             {" "}
                                             <br />
-                                            <a className="text-gray-900 dark:text-gray-dark-12">Target Account </a><input type="Text" id="owner_address" onChange={(e) => setTrfAddress(e.target.value)} ></input>
-                                            
+                                            <a className="text-gray-900 dark:text-gray-dark-12">Target Account </a>
+                                            <input type="Text" id="owner_address" onChange={(e) => setTrfAddress(parseInt(e.target.value))}></input>
                                             <a
                                                 onClick={() => {
                                                     // getCurrentYield();
-                                                    console.log(`This button suppose to transfer the ownership of the whole blockchain to ${trfAddress}`)
+                                                    console.log(`This button suppose to transfer the ownership of the whole blockchain to ${trfAddress}`);
                                                 }}
                                                 className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
                                             >
