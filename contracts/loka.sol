@@ -47,17 +47,12 @@ contract Loka is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 		disbursed=false;
     }
 
-	function disburseYield() public onlyOwner{
+	function disburseYield(uint256 yield) public onlyOwner{
 		require(!disbursed,"this yield has been disbursed");
 		for(uint256 i=0;i<holderIndex.length;i++){
-			claimableYield[holderIndex[i]]+=(tokenQuantity(holderIndex[i])*currentYield)/totalSupply();
+			claimableYield[holderIndex[i]]+=(tokenQuantity(holderIndex[i])*yield)/max_supply;
 		}
 		disbursed=true;
-	}
-
-	function test_yield() public view returns(uint256){
-		return (tokenQuantity(msg.sender)*currentYield)/totalSupply();
-		
 	}
 
 	function getYield() public view returns(uint256) {
@@ -72,6 +67,9 @@ contract Loka is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         
     }
 	
+	function showTotalSupply() public payable {
+        return max_supply;
+    }
 
 	function mintNFT(string memory _tokenURI)
         public payable

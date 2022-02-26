@@ -15,7 +15,7 @@ import ButtonConnectWalletDesktop from "../Buttons/ConnectWalletDesktop";
 import ButtonThemeSwitcher from "../Buttons/ThemeSwitcher";
 import Logo from "../Logo";
 import ButtonConnectWalletMobile from "../Buttons/ConnectWalletMobile";
-import MarketsPageMeta from "./MarketsPageMeta";
+import MarketsPageMeta from "./YieldingMeta";
 import { DEFAULT_CHAIN, RinkebyProvider, useWalletContext } from "../Wallet";
 import { Button } from "../../../stories/Button";
 
@@ -59,23 +59,16 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     const contract = new ethers.Contract(contractAddres, contractAbi, signer);
     const connection = contract.connect(contract.signer);
     const [allToken, setAllToken] = useState(0);
-    const [ownedToken, setOwnedToken] = useState(0);
-    const getOwnedToken = async () => {
+    const [totalSupply, setTotalSupply] = useState(0);
+    const getTotalSupply = async () => {
         var supply = await contract.tokenQuantity(account);
         var allSupply = await contract.totalSupply();
-        var maxSupply = await contract.showTotalSupply();
-        setOwnedToken(supply);
+        setTotalSupply(supply);
         setAllToken(allSupply);
-        console.log("Owned Token " + ownedToken);
-        var num = parseInt(allToken.toString()) + 1;
+        console.log("TOTAL SUPPLY " + totalSupply);
+        var num = parseInt(totalSupply.toString()) + 1;
         var uri_ = '{"name": "LoKa #' + num + '","image": "https://voyager.co.id/img/LOKA_NFT.jpg","attributes": [{"trait_type": "Rig Tier", "value": "Dragon"},{"trait_type": "Multiplier", "value": "1.7"}]}';
         setURI(uri_);
-        //setIsMinted(result);
-    };
-
-    const getTotalSupply = async () => {
-        var allSupply = await contract.totalSupply();
-        setAllToken(allSupply);
         //setIsMinted(result);
     };
 
@@ -93,7 +86,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
         });
 
         await result.wait();
-        getOwnedToken();
+        getTotalSupply();
     };
     const [ethYield, setEthYield] = useState(0);
     const getYield = async () => {
@@ -102,7 +95,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
         setEthYield(theYield / 1000000000);
     };
     if (first || uri == "") {
-        getOwnedToken();
+        getTotalSupply();
         getYield();
         first = false;
     }
@@ -129,7 +122,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
 
         const hashrate = result.data["hashrate"] / 1000000000;
         const workersOnline = result.data["workersOnline"];
-        setOwnerProfit(daily * (ownedToken / allToken));
+        setOwnerProfit(daily * (totalSupply / allToken));
         const monthly = 30 * ownerProfit;
         setMiningBalance(daily);
         setMonthlyMiningBalance(monthly);
@@ -183,8 +176,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
 
                                 <div className="overflow-hidden rounded-2xl border border-gray-light-3 bg-gray-light-2 dark:border-gray-dark-3 dark:bg-gray-dark-2 sm:h-64 sm:flex-row sm:items-center">
                                     <div className="sm:basis-8/8 px-4 py-6 text-center sm:pl-8">
-                                        <h1 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">You have {ownedToken.toString()} LoKas </h1>
-                                        <h3 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">There are {allToken.toString()} / {maxSupply.toString()} LoKas available </h3>
+                                        <h1 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg">You have {totalSupply.toString()} LoKas </h1>
                                         <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
                                             {" "}
                                             <a
@@ -199,7 +191,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                             <br />
                                             <a
                                                 onClick={() => {
-                                                    claimYield();
+                                                    claim();
                                                 }}
                                                 className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
                                             >
