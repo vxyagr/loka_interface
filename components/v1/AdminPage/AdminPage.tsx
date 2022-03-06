@@ -50,7 +50,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("../../../abis/nftAbi.json");
-    const contractAddres = "0x0BbfDec16f07f95aF5F0FA1A1E1D14B56d06d8E9";
+    const contractAddres = "0x2fF7eE514E678Fc61dC48284Db3c9DB08344C116";
 
     // console.log(accountsList[0])
 
@@ -150,7 +150,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                         <h1 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg"></h1>
                                         <div>
                                             <div>
-                                                <input className="mx-2 my-2 rounded-lg px-2 py-2" type="Text" id="yieldInput" onChange={(e) => setEthYield(parseInt(e.target.value) * 1000000000)}></input>
+                                                <input className="mx-2 my-2 rounded-lg bg-gray-300 px-2 py-2 dark:bg-slate-50" type="Text" id="yieldInput" onChange={(e) => setEthYield(parseInt(e.target.value) * 1000000000)}></input>
                                             </div>
                                             <Link href="#">
                                                 <a
@@ -181,7 +181,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                         <h1 className="m-0 mb-8 text-base font-bold text-gray-light-12 dark:text-gray-dark-12 sm:text-lg"></h1>
                                         <div>
                                             <div>
-                                                <input className="mx-2 my-2 rounded-lg px-2 py-2" type="Text" id="yieldInput" onChange={(e) => setNewOwner(e.target.value)}></input>
+                                                <input className="mx-2 my-2 rounded-lg bg-gray-300 px-2 py-2 dark:bg-slate-50" type="Text" id="yieldInput" onChange={(e) => setNewOwner(e.target.value)}></input>
                                             </div>
                                             <Link href="#">
                                                 <a

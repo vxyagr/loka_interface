@@ -50,7 +50,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("../../../abis/nftAbi.json");
-    const contractAddres = "0x0BbfDec16f07f95aF5F0FA1A1E1D14B56d06d8E9";
+    const contractAddres = "0x2fF7eE514E678Fc61dC48284Db3c9DB08344C116";
 
     // console.log(accountsList[0])
 
@@ -209,35 +209,35 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                                         <div className="flex min-h-[150px]">
                                             <div className="inline-block w-1/2 border border-gray-500 px-4  py-4 text-center ">
                                                 <div className="flex min-h-[110px] items-center justify-center text-3xl text-slate-50">
-                                                    <span className="items-center justify-center">{((averageHashrate * ownedToken) / maxSupply).toFixed(2).toString()} GH/s</span>
+                                                    <span className="items-center justify-center text-gray-light-12 dark:text-gray-dark-12">{((averageHashrate * ownedToken) / maxSupply).toFixed(2).toString()} GH/s</span>
                                                 </div>
-                                                <div className="text-sm text-slate-50">Your last 24h Hashrate</div>
+                                                <div className="text-sm  text-gray-light-12 dark:text-gray-dark-12">Your last 24h Hashrate</div>
                                             </div>
                                             <div className="inline-block w-1/2 border border-gray-500 px-4  py-4 text-center ">
                                                 <div className="flex min-h-[110px] items-center justify-center text-3xl text-slate-50">
-                                                    <span className="items-center justify-center">{workers.toString()} </span>
+                                                    <span className="items-center justify-center text-gray-light-12 dark:text-gray-dark-12">{workers.toString()} </span>
                                                 </div>
-                                                <div className="text-sm text-slate-50">Workers Online</div>
+                                                <div className="text-sm text-gray-light-12 dark:text-gray-dark-12">Workers Online</div>
                                             </div>
                                         </div>
                                         <div className="flex min-h-[150px]">
                                             <div className="inline-block w-1/2 border border-gray-500 px-4  py-4 text-center ">
                                                 <div className="flex min-h-[110px] items-center justify-center text-3xl text-slate-50">
-                                                    <span className="items-center justify-center">{averageHashrate.toFixed(2).toString()} GH/s</span>
+                                                    <span className="items-center justify-center text-gray-light-12 dark:text-gray-dark-12">{averageHashrate.toFixed(2).toString()} GH/s</span>
                                                 </div>
-                                                <div className="text-sm text-slate-50">LoKa 24h Hashrate</div>
+                                                <div className="text-sm text-gray-light-12 dark:text-gray-dark-12">LoKa 24h Hashrate</div>
                                             </div>
                                             <div className="inline-block w-1/2 border border-gray-500 px-4  py-4 text-center ">
                                                 <div className="flex min-h-[110px] items-center justify-center text-3xl text-slate-50">
-                                                    <span className="items-center justify-center">{miningBalance.toFixed(2).toString()} ETH</span>
+                                                    <span className="items-center justify-center text-gray-light-12 dark:text-gray-dark-12">{miningBalance.toFixed(2).toString()} ETH</span>
                                                 </div>
-                                                <div className="text-sm text-slate-50">LoKa 24h yield</div>
+                                                <div className="text-sm text-gray-light-12 dark:text-gray-dark-12">LoKa 24h yield</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="px-4 py-6 text-center sm:basis-1/4 sm:pl-8">
                                         <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
-                                            <div>You have</div> <span className="items-center justify-center text-4xl text-slate-50">{ethYield.toFixed(2).toString()} ETH</span> <div>of dividend</div>
+                                            <div>You have</div> <span className="items-center justify-center text-4xl text-gray-light-12 dark:text-gray-dark-12">{ethYield.toFixed(2).toString()} ETH</span> <div>of dividend</div>
                                             <Link href="#">
                                                 <a
                                                     onClick={() => {
