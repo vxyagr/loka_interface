@@ -3,7 +3,7 @@ import type { FunctionComponent } from "react";
 /**
  * MarketsPageMetaProps is a React Component properties that passed to React Component MarketsPageMeta
  */
-type MarketsPageMetaProps = {};
+type LokaPageMetaProps = {};
 
 /**
  * MarketsPageMeta is just yet another react component
@@ -11,13 +11,13 @@ type MarketsPageMetaProps = {};
  * @link https://fettblog.eu/typescript-react/components/#functional-components
  */
 
-const MarketsPageMeta: FunctionComponent<MarketsPageMetaProps> = ({}) => {
+const LokaPageMeta: FunctionComponent<LokaPageMetaProps> = ({}) => {
     return (
         <>
             {/* <!-- Facebook Meta Tags --> */}
-            <meta property="og:url" content="https://risedle.com/" />
+            <meta property="og:url" content="https://loka-interface.vercel.apps/" />
             <meta property="og:type" content="website" />
-            <meta property="og:title" content="Risedle Protocol" />
+            <meta property="og:title" content="Loka" />
             <meta property="og:description" content="Invest, earn and build on the decentralized crypto leveraged ETFs market protocol" />
             <meta property="og:image" content="https://risedle.com/og/Markets.png" />
 
@@ -32,4 +32,4 @@ const MarketsPageMeta: FunctionComponent<MarketsPageMetaProps> = ({}) => {
     );
 };
 
-export default MarketsPageMeta;
+export default LokaPageMeta;

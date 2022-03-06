@@ -22,6 +22,10 @@ html.dark {
     background: rgb(34 43 28 / var(--tw-bg-opacity));
 }
 
+html.dark {
+    background: rgb(118 74 188 / var(--tw-bg-opacity));
+}
+
 html {
     background: rgb(252 252 252 / var(--tw-bg-opacity));
 }
@@ -59,5 +63,23 @@ html {
     }
     100% {
         background-position: 0% 50%;
+    }
+}
+
+.background-animate {
+    background-size: 400%;
+
+    -webkit-animation: AnimationName 3s ease infinite;
+    -moz-animation: AnimationName 3s ease infinite;
+    animation: AnimationName 3s ease infinite;
+}
+
+@keyframes AnimationName {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
     }
 }

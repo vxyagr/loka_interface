@@ -1,6 +1,6 @@
 import { Meta, Story } from "@storybook/react";
 
-import MarketsPage from "../../../components/v1/MarketsPage/MarketsPage";
+import MarketsPage from "../../../components/v1/LokaPage/LokaPage";
 import { Wallet } from "../../../components/v1/Wallet";
 
 export default {

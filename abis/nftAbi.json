@@ -136,6 +136,19 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "getCurrentYield",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -226,6 +239,19 @@
     {
         "inputs": [],
         "name": "totalSupply",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getMaxSupply",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -466,6 +492,26 @@
             }
         ],
         "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "yield",
+                "type": "uint256"
+            }
+        ],
+        "name": "setCurrentYield",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "disburseYield",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

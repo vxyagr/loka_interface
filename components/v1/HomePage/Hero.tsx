@@ -16,13 +16,9 @@ const Hero: FunctionComponent<HeroProps> = ({}) => {
     return (
         <div className="relative w-full justify-center overflow-hidden">
             <div className="relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 px-4 py-32 text-center align-middle">
-                <div>
-                    <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-light-10 dark:text-gray-dark-10">Introducing, LoKa</p>
-                </div>
                 <div className="flex items-center">
                     <h1 className="hero-text">
-                        <u>LO</u>w <u>KA</u>rbon
-                        <br></br> blockchain with <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none">green and renewable energy</span>
+                        crypto mining with <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none">green and renewable energy</span>
                     </h1>
                 </div>
                 <div className="mx-auto max-w-lg">

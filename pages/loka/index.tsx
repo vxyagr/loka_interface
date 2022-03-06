@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 
 // Import components
-import MarketsPage from "../../components/v1/MarketsPage/MarketsPage";
+import LokaPage from "../../components/v1/LokaPage/LokaPage";
 
 const Home: NextPage = () => {
-    return <MarketsPage />;
+    return <LokaPage />;
 };
 
 export default Home;

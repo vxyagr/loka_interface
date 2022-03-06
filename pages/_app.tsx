@@ -5,7 +5,7 @@ import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
 
-function RisedleApp({ Component, pageProps }: AppProps) {
+function LokaApp({ Component, pageProps }: AppProps) {
     return (
         <Wallet>
             <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
@@ -13,4 +13,4 @@ function RisedleApp({ Component, pageProps }: AppProps) {
         </Wallet>
     );
 }
-export default RisedleApp;
+export default LokaApp;

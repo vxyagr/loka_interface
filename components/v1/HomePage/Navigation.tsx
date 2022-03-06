@@ -56,7 +56,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
         ],
     });
     return (
-        <div className="sticky top-0 z-40 flex flex-row items-center justify-between bg-gray-light-1/90 p-4 backdrop-blur-lg dark:bg-gray-dark-1/90">
+        <div className="sticky top-0 z-40 flex flex-row items-center justify-between bg-green-300  p-4 backdrop-blur-lg dark:bg-green-700 ">
             <div className="flex-none md:w-[162.8px]">
                 <Link href="/">
                     <a className="flex items-center">
