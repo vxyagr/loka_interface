@@ -10,15 +10,13 @@ import Axios from "axios";
 import Favicon from "../Favicon";
 import Footer from "../Footer";
 import { useMarkets } from "../../../utils/snapshot";
-import MarketCard from "./MarketCard";
+
 import ButtonConnectWalletDesktop from "../Buttons/ConnectWalletDesktop";
 import ButtonThemeSwitcher from "../Buttons/ThemeSwitcher";
 import Logo from "../Logo";
 import ButtonConnectWalletMobile from "../Buttons/ConnectWalletMobile";
 import MarketsPageMeta from "./MarketsPageMeta";
 import { DEFAULT_CHAIN, RinkebyProvider, useWalletContext } from "../Wallet";
-import { Button } from "../../../stories/Button";
-import ButtonMintGradient from "../Buttons/MintGradient";
 
 /**
  * MarketsPageProps is a React Component properties that passed to React Component MarketsPage
