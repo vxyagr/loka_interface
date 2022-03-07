@@ -50,7 +50,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("../../../abis/nftAbi.json");
-    const contractAddres = "0x2fF7eE514E678Fc61dC48284Db3c9DB08344C116";
+    const contractAddres = "0xf929D31dA413c2a0c3099FA4e12458521192CcBD";
 
     // console.log(accountsList[0])
 
@@ -259,7 +259,9 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
 
                     <div className="container mx-auto mt-6 max-w-[800px] px-4 sm:mt-8">
                         <div className="text-center">
-                            <h1 className="text-2xl font-bold leading-8 tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[32px]">Your LoKa NFTs</h1>
+                            <a href="https://testnets.opensea.io/collection/loka-low-karbon-renewable-energy-crypto-miner-v3">
+                                <h3 className="text-lg font-bold tracking-[-0.02em] text-gray-light-12 dark:text-gray-dark-12 sm:text-[20px]">See Your LoKa NFTs on Opensea</h3>
+                            </a>
                         </div>
 
                         <div className="m-auto max-w-4xl px-4"></div>

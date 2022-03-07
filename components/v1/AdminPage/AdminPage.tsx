@@ -50,7 +50,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     //if (window.web3) {
 
     var contractAbi = require("../../../abis/nftAbi.json");
-    const contractAddres = "0x2fF7eE514E678Fc61dC48284Db3c9DB08344C116";
+    const contractAddres = "0xf929D31dA413c2a0c3099FA4e12458521192CcBD";
 
     // console.log(accountsList[0])
 
