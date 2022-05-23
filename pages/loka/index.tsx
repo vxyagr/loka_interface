@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
 // Import components
-import LokaPage from "../../components/v1/LokaPage/LokaPage";
+import LokaPage from "../../components/LokaPage/LokaPage";
 
 const Home: NextPage = () => {
     return <LokaPage />;
