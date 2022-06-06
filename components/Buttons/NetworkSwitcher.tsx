@@ -6,7 +6,7 @@ import { chain as Chains, Chain } from "wagmi";
 
 import { supportedChains, useWalletContext } from "../Wallet";
 
-import RisedleLinks from "../../../utils/links";
+import RisedleLinks from "../../utils/links";
 import ButtonClose from "./Close";
 import toast from "react-hot-toast";
 import ToastError from "../Toasts/Error";
