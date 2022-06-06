@@ -153,8 +153,10 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                         }
                         return (
                             <>
-                                <Link href={"/"} className="button basic w-[40px] p-2 outline-0">
-                                    <img src="favico_loka.png" alt={chain.chain.name} style={{ maxWidth: "38px" }} className="flex-shrink-0" />
+                                <Link href={"/"}>
+                                    <p className="button basic w-[40px] p-2 outline-0">
+                                        <img src="favico_loka.png" alt={chain.chain.name} style={{ maxWidth: "38px" }} className="flex-shrink-0" />
+                                    </p>
                                     {/**{getChainIconPath(chain.chain)}   <Popover.Button ref={setReferenceElement1} className="button basic w-[40px] p-2 outline-0">*/}
                                 </Link>
                                 <Popover.Panel ref={setPopperElement1} style={popper1.styles.popper} {...popper1.attributes.popper} className="flex min-w-[241px] flex-col rounded-[16px] border border-gray-light-4 bg-gray-light-2 p-4 dark:border-gray-dark-4 dark:bg-gray-dark-2">
