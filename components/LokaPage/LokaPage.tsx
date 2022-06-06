@@ -140,11 +140,11 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
     showYield();
     if (account) {
         return (
-            <div className="relative flex h-full min-h-screen w-full flex-col overflow-hidden bg-gray-light-1 font-inter dark:bg-gray-dark-1">
+            <div className="h-screen w-full overflow-clip bg-green-900 font-inter">
                 <Head>
                     {/* <!-- HTML Meta Tags --> */}
                     <Scroll />
-                    <title>LoKa | Blockchain with Renewable Energy </title>
+                    <title>Loka | Crypto Mining with Renewable Energy </title>
                     <meta name="description" content="Invest and earn from professionally managed green energy blockchain mining infrastructure" />
                     <MarketsPageMeta />
                 </Head>
@@ -156,7 +156,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                             <Link href="/">
                                 <a className="flex items-center">
                                     <Logo />
-                                    <span className="traking-tight leading-0 self-center pl-2 font-inter text-base font-bold text-gray-light-12 dark:text-gray-light-1">LoKa</span>
+                                    <span className="traking-tight leading-0 self-center pl-2 font-inter text-base font-bold text-gray-light-12 dark:text-gray-light-1"></span>
                                 </a>
                             </Link>
                         </div>
@@ -268,16 +268,7 @@ const MarketsPage: FunctionComponent<MarketsPageProps> = ({}) => {
                     <Footer />
                 </div>
 
-                <div className="absolute -top-1/3 left-1/2 -translate-x-1/2 sm:-top-1/2">
-                    <svg className="stroke-black dark:stroke-white" width="679" height="679" viewBox="0 0 679 679" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g opacity="0.5">
-                            <circle opacity="0.1" cx="339.5" cy="339.5" r="130.173" />
-                            <circle opacity="0.1" cx="339.5" cy="339.5" r="175.19" />
-                            <circle opacity="0.05" cx="339.5" cy="339.5" r="227.709" />
-                            <circle opacity="0.1" cx="339.5" cy="339.5" r="339" />
-                        </g>
-                    </svg>
-                </div>
+                <div className="absolute -top-1/3 left-1/2 -translate-x-1/2 sm:-top-1/2"></div>
 
                 <div className="absolute top-0 left-1/2 -translate-x-1/2">
                     <svg width="543" height="463" viewBox="0 0 543 463" fill="none" xmlns="http://www.w3.org/2000/svg">

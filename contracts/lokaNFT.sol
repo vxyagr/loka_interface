@@ -1313,13 +1313,13 @@ contract LokaNFT is ERC721A, Ownable, ReentrancyGuard {
 	//NFT details
 	struct lokaNFTDetail {
 		uint256 yieldEffectivity;
-		bool isSet;
 	}
 
 	//mapping (uint256=>speciesDetail) public species;
 	string [] public speciesName;
 	uint256 [] public speciesYieldEffectivity;
 	uint256[][] yieldEffectivity;
+  
 	mapping (uint256 => lokaNFTDetail) internal lokas;
 	//mapping (address => uint256[]) public lokasByOwner;
 	mapping (uint256 => uint256) private _breaderineSupply;

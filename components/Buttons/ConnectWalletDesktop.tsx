@@ -148,7 +148,7 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
 
                         <div className="m-0 border-t border-dashed border-gray-light-3 p-4 text-center dark:border-gray-dark-3">
                             <p className="leading-1 text-xs text-gray-light-11 dark:text-gray-dark-11">
-                                By connecting your wallet to Residle you&apos;re agree with our{" "}
+                                By connecting your wallet to Loka you&apos;re agree with our{" "}
                                 <a href="#" className="text-gray-light-12 underline dark:text-gray-dark-12" target="_blank" rel="noreferrer">
                                     Terms and Conditions
                                 </a>

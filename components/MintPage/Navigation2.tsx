@@ -8,6 +8,8 @@ import Logo from "../Logo";
 import ButtonLaunchBasic from "../Buttons/LaunchBasic";
 import ButtonThemeSwitcher from "../Buttons/ThemeSwitcher";
 import ButtonLaunchGradient from "../Buttons/LaunchGradient";
+import ButtonConnectWalletMobile from "../Buttons/ConnectWalletMobile";
+import ButtonConnectWalletDesktop from "../Buttons/ConnectWalletDesktop";
 
 // Import logos
 
@@ -61,7 +63,10 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
     });
     return (
         //<div className='{"background":"linear-gradient(89.93deg, #0A2F0C 27.17%, #295771 76.4%, #0A2F0C 99.83%)"} sticky  top-0 z-40 flex flex-row items-center justify-between bg-green-300 p-4 backdrop-blur-lg dark:bg-green-700 '>
-        <div style={bgStyle} className={`${bgStyle} lg sticky top-0 z-40 flex flex-row items-center justify-between p-4 backdrop-blur-lg  `}>
+        <div className={` lg sticky top-0 z-40 flex flex-row items-center justify-between p-4 backdrop-blur-lg  `}>
+            <div className="lg:hidden">
+                <ButtonConnectWalletMobile />
+            </div>
             <div className="flex-none md:w-[162.8px]">
                 <Link href="/">
                     <a className="flex items-center">
@@ -77,7 +82,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                             className="
                               first::pt-0 
                               text-2xs font-500 padding-huge relative flex h-7 flex-row items-center items-center items-center justify-center rounded bg-white bg-opacity-20 px-4 pt-0.5 font-mono uppercase tracking-wider text-white  duration-1000 duration-200 hover:bg-opacity-70"
-                            href="/gallery"
+                            href="/about"
                         >
                             About
                         </a>
@@ -87,7 +92,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                             className="
                               first::pt-0 
                               text-2xs font-500 padding-huge relative flex h-7 flex-row items-center items-center items-center justify-center rounded bg-white bg-opacity-20 px-4 pt-0.5 font-mono uppercase tracking-wider text-white  duration-1000 duration-200 hover:bg-opacity-70"
-                            href="/garden"
+                            href="/mint"
                         >
                             Buy
                         </a>
@@ -97,25 +102,20 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                             className="
                               first::pt-0 
                               text-2xs font-500 padding-huge relative flex h-7 flex-row items-center items-center items-center justify-center rounded bg-white bg-opacity-20 px-4 pt-0.5 font-mono uppercase tracking-wider text-white  duration-1000 duration-200 hover:bg-opacity-70"
-                            href="/mindmap"
+                            href="/roadmap"
                         >
                             Roadmap
                         </a>
                     </li>
                     <li>
-                        <div
+                        <a
                             className="
-                              first::pt-0 text-2xs font-500 padding-huge relative flex h-7 flex-row items-center items-center items-center justify-center rounded bg-white bg-opacity-20 pt-0.5 font-mono uppercase  tracking-wider text-white  duration-1000 duration-200 hover:bg-opacity-70"
+                              first::pt-0 
+                              text-2xs font-500 padding-huge relative flex h-7 flex-row items-center items-center items-center justify-center rounded bg-white bg-opacity-20 px-4 pt-0.5 font-mono uppercase tracking-wider text-white  duration-1000 duration-200 hover:bg-opacity-70"
+                            href="/team"
                         >
-                            <div className="block h-full">
-                                <button className="block flex h-full items-center border-transparent px-4 focus:border-transparent focus:outline-none focus:ring-0" id="headlessui-menu-button-1" type="button" aria-haspopup="true" aria-expanded="false">
-                                    Team{/* */}{" "}
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="ml-2 mb-0.5 h-2 w-2 fill-current">
-                                        <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                            Team
+                        </a>
                     </li>
 
                     <li>
@@ -166,9 +166,11 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                 </ul>
             </div>
 
-            <div className="flex flex-none flex-row space-x-2 text-right">
+            <div className="flex hidden flex-none flex-row space-x-2 text-right lg:flex">
                 <div>
-                    <ButtonLaunchBasic />
+                    <div className="hidden lg:flex">
+                        <ButtonConnectWalletDesktop />
+                    </div>
                 </div>
             </div>
             <div className="z-50 lg:hidden">

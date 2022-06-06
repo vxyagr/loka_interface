@@ -13,7 +13,7 @@ type LogoProps = {};
  */
 const Logo: FunctionComponent<LogoProps> = ({}) => {
     return (
-        <img src="loka_logo.png" width={96} height={48} />
+        <img src="loka_logo.png" width={100} height={50} />
         /*<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="inline-block fill-gray-light-12 dark:fill-white">
             <path
                 fillRule="evenodd"

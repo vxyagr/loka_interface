@@ -12,6 +12,21 @@
     .hero-text {
         @apply m-0 max-w-2xl text-center text-5xl font-bold tracking-tight text-gray-light-12 dark:text-gray-dark-12 sm:text-6xl md:text-7xl;
     }
+
+    .med-hero-text {
+        @apply m-0 max-w-xl text-center text-3xl font-bold tracking-tight text-gray-light-12 dark:text-gray-dark-12 sm:text-3xl md:text-4xl;
+    }
+}
+
+.mint_counter .mint_counter_sm {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, -webkit-max-content);
+    grid-template-columns: repeat(3, max-content);
+    grid-gap: 30px;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
 }
 
 html.dark {

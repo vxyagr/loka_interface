@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { FunctionComponent } from "react";
 import Favicon from "../Favicon";
 import Footer from "../Footer";
-import Navigation from "../HomePage/Navigation";
+import Navigation from "../Navigation";
 import ButtonSpecials from "../Buttons/ButtonSpecials";
 
 /**
