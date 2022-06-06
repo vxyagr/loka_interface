@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
 // Import components
-import MarketsPage from "../../components/v1/AdminPage/AdminPage";
+import MarketsPage from "../../components/AdminPage/AdminPage";
 
 const Home: NextPage = () => {
     return <MarketsPage />;

@@ -14,7 +14,6 @@ import ButtonConnectWalletDesktop from "../Buttons/ConnectWalletDesktop";
 // Import logos
 
 // Import utils
-import RisedleLinks from "../utils/links";
 
 // Import popper
 import { usePopper } from "react-popper";

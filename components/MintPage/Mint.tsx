@@ -2,6 +2,7 @@ import type { FunctionComponent } from "react";
 // Import components
 import ButtonLaunchGradient from "../Buttons/LaunchGradient";
 import PrivateSale from "./PrivateSale";
+// @ts-ignore
 import ReactRoundedImage from "react-rounded-image";
 import MyPhoto from "../../public/dragonkin_final.jpg";
 import { useMarkets } from "../../utils/snapshot";
@@ -68,9 +69,6 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         //setIsMinted(result);
     };
 
-    const sleep = (milliseconds) => {
-        return new Promise((resolve) => setTimeout(resolve, milliseconds));
-    };
     //getAvailable();
     //await sleep(5000);
 
@@ -81,7 +79,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         //await sleep(5000);
     };
 
-    const switchSpecies = async (speciesNumber) => {
+    const switchSpecies = async (speciesNumber: any) => {
         //getAvailable();
         console.log(speciesNumber);
         setSpecies(speciesNumber);
