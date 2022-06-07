@@ -37,7 +37,7 @@ const HomePage: FunctionComponent<HomePageProps> = ({}) => {
     const [walletConnected, setWalletConnected] = useState(accountConnected);
     const bgCol = { background: "radial-gradient(100.64% 150.78% at 50% -7.3%, #28556C 0%, rgba(10, 47, 12, 0.95) 41.22%, #0A2F0C 63.49%)" };
     return (
-        <div className={`${bgCol}h-full w-full overflow-clip  font-inter`} style={{ background: "radial-gradient(105.51% 158.08% at 50% -14.6%, #28556C 0%, rgba(10, 47, 12, 0.95) 41.22%, #0A2F0C 67.68%)" }}>
+        <div className={`${bgCol} h-full w-full font-inter  lg:h-full`} style={{ background: "radial-gradient(105.51% 158.08% at 50% -14.6%, #28556C 0%, rgba(10, 47, 12, 0.95) 41.22%, #0A2F0C 67.68%)" }}>
             <Head>
                 {/* <!-- HTML Meta Tags --> */}
                 <title>Loka | Crypto Mining with Renewable Energy </title>

@@ -152,7 +152,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     };
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
-            <div className="relative h-screen w-full justify-center overflow-hidden">
+            <div className="relative h-full w-full justify-center overflow-hidden lg:h-full">
                 <div className="relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10">
                     <h2 className="med-hero-text">
                         Mint <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none sm:py-20">Loka Miner</span>
@@ -246,12 +246,12 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
                         mintToken();
                     }}
                 >
-                    <div className="my-1 flex w-full cursor-pointer items-center justify-center sm:absolute sm:my-1">
+                    <div className="flex w-full cursor-pointer items-center justify-center">
                         <div className="z-10 flex w-full flex-col items-center gap-8 px-4 text-center ">
-                            <div className="bottom-8 h-14 w-full px-4 lg:bottom-16 lg:h-20  lg:w-48 lg:max-w-2xl lg:px-0">
-                                <div className="flex h-14 flex-row items-center rounded-lg bg-violet-light-3 p-4 hover:bg-violet-light-4 dark:bg-violet-dark-2 hover:dark:bg-violet-dark-3 lg:h-20 " style={{ background: "linear-gradient(77.68deg, #3BCAB0 -20.56%, #DA69EC 21.53%, #C0FFF4 83.03%)", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <div className="mb-[20px] h-[70px] w-full items-center justify-center px-4  text-center  lg:flex lg:h-[70px] lg:max-w-2xl lg:px-0">
+                                <div className="flex h-[70px] flex-row items-center justify-center rounded-lg p-4  lg:h-[70px] lg:w-[300px] " style={{ background: "linear-gradient(77.68deg, #3BCAB0 -20.56%, #DA69EC 21.53%, #C0FFF4 83.03%)", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <a className="align-middle" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                        <span className="leading-0 h-20 align-middle text-base font-semibold  leading-none text-gray-light-12 dark:text-gray-dark-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        <span className="leading-0 align-middle text-base font-bold  leading-none " style={{ display: "flex", justifyContent: "center", alignItems: "center", color: "#0A2F0C" }}>
                                             MINT FOR {totalPrice} ETH{" "}
                                         </span>
                                     </a>
