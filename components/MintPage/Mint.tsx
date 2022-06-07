@@ -152,7 +152,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     };
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
-            <div className="relative h-full w-full justify-center overflow-hidden">
+            <div className="relative h-screen w-full justify-center overflow-hidden">
                 <div className="relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10">
                     <h2 className="med-hero-text">
                         Mint <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none sm:py-20">Loka Miner</span>

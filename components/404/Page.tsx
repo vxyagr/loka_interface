@@ -23,8 +23,8 @@ const PageNotFound: FunctionComponent<PageNotFoundProps> = ({}) => {
         <div className="h-full w-full overflow-clip bg-gray-light-1 font-inter dark:bg-gray-dark-1">
             <Head>
                 {/* <!-- HTML Meta Tags --> */}
-                <title>Risedle Protocol</title>
-                <meta name="description" content="Invest, earn and build on the decentralized crypto leveraged ETFs market protocol" />
+                <title>Loka | Crypto Mining with Renewable Energy</title>
+                <meta name="description" content="Invest and earn from professionally managed green energy blockchain mining infrastructure" />
             </Head>
             <Favicon />
             <Navigation />

@@ -19,12 +19,12 @@ const HomePageMeta: FunctionComponent<HomePageMetaProps> = ({}) => {
             <meta property="og:type" content="website" />
             <meta property="og:title" content="Loka Blockchain Mining with Renewable Energy" />
             <meta property="og:description" content="A simple way to invest on a green energy based blockchain infrastructure, managed by professionals with transparency and reliability" />
-            <meta property="og:image" content="" />
+            <meta property="og:image" content="https://loka-interface/loka_preview.png" />
 
             {/* <!-- Twitter Meta Tags --> */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta property="twitter:domain" content="lokaverse.io" />
-            <meta property="twitter:url" content="https://lokaverse.io/" />
+            <meta property="twitter:url" content="https://twitter.com/lokaversenft" />
             <meta name="twitter:title" content="Loka " />
             <meta name="twitter:description" content="Loka Blockchain Mining with Renewable Energy" />
             <meta name="twitter:image" content="" />
