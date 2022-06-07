@@ -8,7 +8,8 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 
 export const connectorStorageKey = "lokaConnectors.wallet";
 
-export const supportedChains = [Chains.rinkeby, Chains.mainnet, Chains.kovan];
+//export const supportedChains = [Chains.rinkeby, Chains.mainnet, Chains.kovan];
+export const supportedChains = [Chains.rinkeby];
 export const DEFAULT_CHAIN = Chains.rinkeby;
 
 // Wallet connectors

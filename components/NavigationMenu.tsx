@@ -5,21 +5,23 @@ import { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 
 // Import components
-import Logo from "../Logo";
-import ButtonLaunchBasic from "../Buttons/LaunchBasic";
-import ButtonThemeSwitcher from "../Buttons/ThemeSwitcher";
-import ButtonLaunchGradient from "../Buttons/LaunchGradient";
-import ButtonConnectWalletMobile from "../Buttons/ConnectWalletMobile";
-import ButtonConnectWalletDesktop from "../Buttons/ConnectWalletDesktop";
+import Logo from "./Logo";
+import ButtonLaunchBasic from "./Buttons/LaunchBasic";
+import BurgerMenu from "./BurgerMenu";
+import ButtonThemeSwitcher from "./Buttons/ThemeSwitcher";
+import ButtonLaunchGradient from "./Buttons/LaunchGradient";
+
 // Import logos
 
 // Import utils
+import RisedleLinks from "../utils/links";
 
 // Import popper
 import { usePopper } from "react-popper";
 
 // Import headless ui
 import { Popover, Transition } from "@headlessui/react";
+import ButtonConnectWalletMobile from "./Buttons/ConnectWalletMobile";
 
 /**
  * NavigationProps is a React Component properties that passed to React Component Navigation
@@ -64,13 +66,10 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
     return (
         //<div className='{"background":"linear-gradient(89.93deg, #0A2F0C 27.17%, #295771 76.4%, #0A2F0C 99.83%)"} sticky  top-0 z-40 flex flex-row items-center justify-between bg-green-300 p-4 backdrop-blur-lg dark:bg-green-700 '>
         <>
-            <div className={` lg h-15 sticky top-0 z-40 flex flex-row items-center justify-between p-0 backdrop-blur-lg `}>
-                <div className="flex h-16 lg:hidden">
-                    <ButtonConnectWalletMobile />
-                </div>
-                <div className="flex p-4 md:w-[162.8px] lg:flex">
+            <div className={` lg h-15 sticky top-0 z-40 flex flex-row items-center justify-between py-1 backdrop-blur-lg `}>
+                <div className="h-16 flex-none p-4 md:w-[162.8px]">
                     <Link href="/">
-                        <p className="hidden items-center lg:flex ">
+                        <p className="flex items-center">
                             <Logo />
                         </p>
                     </Link>
@@ -78,7 +77,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
 
                 <div className="items-right  hidden p-4 lg:flex">
                     <ul className="flex space-x-2">
-                        <li className="cursor-pointer">
+                        <li>
                             <Link href="/about">
                                 <p
                                     className="
@@ -89,12 +88,12 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                                 </p>
                             </Link>
                         </li>
-                        <li className="cursor-pointer">
+                        <li>
                             <Link href="/mint">
                                 <p className="first::pt-0 text-2xs font-500 padding-huge relative flex h-7 flex-row items-center items-center items-center justify-center rounded bg-white bg-opacity-20 px-4 pt-0.5 font-mono uppercase tracking-wider text-white  duration-1000 duration-200 hover:bg-opacity-70">Buy</p>
                             </Link>
                         </li>
-                        <li className="cursor-pointer">
+                        <li>
                             <Link href="/roadmap">
                                 <p
                                     className="
@@ -105,7 +104,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                                 </p>
                             </Link>
                         </li>
-                        <li className="cursor-pointer">
+                        <li>
                             <Link href="/team">
                                 <p
                                     className="
@@ -117,7 +116,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                             </Link>
                         </li>
 
-                        <li className="cursor-pointer">
+                        <li>
                             <Link href="https://twitter.com/lokaversenft">
                                 <p
                                     className="
@@ -131,7 +130,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                                 </p>
                             </Link>
                         </li>
-                        <li className="cursor-pointer">
+                        <li>
                             <Link href="https://www.instagram.com/lokaversenft/">
                                 <p
                                     className="
@@ -145,7 +144,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                                 </p>
                             </Link>
                         </li>
-                        <li className="cursor-pointer">
+                        <li>
                             <Link href="http://discord.gg/">
                                 <p
                                     className="
@@ -159,13 +158,26 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                                 </p>
                             </Link>
                         </li>
-                        <li className="cursor-pointer">
-                            <div className="hidden p-0 lg:flex">
-                                <ButtonConnectWalletDesktop />
-                            </div>
-                        </li>
                     </ul>
                 </div>
+
+                <div className="z-50 lg:hidden">
+                    <button>
+                        <Hamburger
+                            direction="right"
+                            color="#FFFFFF"
+                            onToggle={(toggled) => {
+                                if (toggled) {
+                                    // open a menu
+                                    setOpenMenu(true);
+                                } else {
+                                    setOpenMenu(false);
+                                }
+                            }}
+                        />
+                    </button>
+                </div>
+                {openMenu ? <BurgerMenu open={openMenu} /> : <></>}
             </div>
         </>
     );
