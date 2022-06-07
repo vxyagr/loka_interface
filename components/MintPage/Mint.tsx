@@ -14,7 +14,7 @@ import React, { useState } from "react";
 /**
  * HeroProps is a React Component properties that passed to React Component Hero
  */
-type HeroProps = {};
+type HeroProps = { accountConnected: boolean };
 
 /**
  * Hero is just yet another react component
@@ -28,14 +28,15 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     const { chain } = useWalletContext();
     const { account } = useWalletContext();
     const { signer } = useWalletContext();
+    const showConnectWallet = account ? false : true;
+    const showSwitchToDefaultNetwork = !showConnectWallet && chain.unsupported ? true : false;
+
+    //setIsConnected(props.accountConnected);
 
     // Read data from Snapshot API
     const marketsResponse = useMarkets(chain.unsupported ? DEFAULT_CHAIN.id : chain.chain.id);
 
     // UI states
-    const showLoading = marketsResponse.isLoading;
-    const showError = !showLoading && marketsResponse.error;
-    const showData = !showLoading && !showError && marketsResponse.data;
 
     const Web3 = require("web3");
     //if (window.web3) {
@@ -56,6 +57,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     const [elf, setElf] = useState(0);
     const [dwarf, setDwarf] = useState(0);
     const [goblin, setGoblin] = useState(0);
+    const [walletConnected, setWalletConnected] = useState(false);
 
     const getAvailable = async () => {
         var dragon_ = await contract.getAvailableSpecies(0);
@@ -78,6 +80,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         //console.log(dragon.toString());
         //await sleep(5000);
     };
+    const speciesText = ["Dragon | 2x yield effectivity | APR 30%", "Elf | 1.3x yield effectivity | APR 18%", "Dwarf | 1.1x yield effectivity | APR 15%", "Goblin | 1x yield effectivity | APR 15%"];
 
     const switchSpecies = async (speciesNumber: any) => {
         //getAvailable();
@@ -101,103 +104,104 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
 
         await result.wait();
     };
-
-    return (
-        <div className="relative h-full w-full justify-center overflow-hidden">
-            <div className="relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10">
-                <h2 className="med-hero-text">
-                    Mint <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none sm:py-20">Loka Miner</span>
-                </h2>
-                <div className="flex items-center">
-                    <div className="lg:hidden">
-                        <ReactRoundedImage image={chosenImage} roundedColor="#C1F6ED" imageWidth="180" imageHeight="180" roundedSize="13" borderRadius="1000" />
-                    </div>
-                    <div className="hidden lg:flex">
-                        <ReactRoundedImage image={chosenImage} roundedColor="#C1F6ED" imageWidth="250" imageHeight="250" roundedSize="13" borderRadius="1000" />
-                    </div>
-                </div>
-                <div className=" w-full px-4 lg:right-8 lg:w-full lg:max-w-2xl lg:px-0">
-                    <h1 className="text-base leading-relaxed text-gray-light-10 dark:text-gray-dark-10">Dragon | 2x Yield Effectivity | APR 30% </h1>
-                </div>
-                <div className="flex w-full items-center px-4 text-center lg:right-8 lg:w-full lg:max-w-2xl lg:px-0" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <div
-                        onClick={() => {
-                            switchSpecies(0);
-                        }}
-                        className="flex flex-row items-center p-2 text-center sm:basis-1/4"
-                        style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
-                    >
+    if (!showConnectWallet && !showSwitchToDefaultNetwork) {
+        return (
+            <div className="relative h-full w-full justify-center overflow-hidden">
+                <div className="relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10">
+                    <h2 className="med-hero-text">
+                        Mint <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none sm:py-20">Loka Miner</span>
+                    </h2>
+                    <div className="flex items-center">
                         <div className="lg:hidden">
-                            <ReactRoundedImage className="hidden items-center rounded-lg px-2 text-center sm:basis-1/4" image="species0.png" roundedColor="#C1F6ED" imageWidth="80" imageHeight="80" roundedSize="10" borderRadius="1000" />
+                            <ReactRoundedImage image={chosenImage} roundedColor="#C1F6ED" imageWidth="180" imageHeight="180" roundedSize="13" borderRadius="1000" />
                         </div>
                         <div className="hidden lg:flex">
-                            <ReactRoundedImage className="hidden flex-row items-center rounded-lg px-2 text-center sm:basis-1/4 lg:flex" image="species0.png" roundedColor="#C1F6ED" imageWidth="100" imageHeight="100" roundedSize="10" borderRadius="1000" />
+                            <ReactRoundedImage image={chosenImage} roundedColor="#C1F6ED" imageWidth="250" imageHeight="250" roundedSize="13" borderRadius="1000" />
                         </div>
                     </div>
-                    <div
-                        onClick={() => {
-                            switchSpecies(1);
-                        }}
-                        className="flex flex-row items-center p-2 text-center sm:basis-1/4"
-                        style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
-                    >
-                        <div className="lg:hidden">
-                            <ReactRoundedImage className="hidden items-center rounded-lg px-2 text-center sm:basis-1/4" image="species1.png" roundedColor="#C1F6ED" imageWidth="80" imageHeight="80" roundedSize="10" borderRadius="1000" />
+                    <div className=" w-full px-4 lg:right-8 lg:w-full lg:max-w-2xl lg:px-0">
+                        <h1 className="text-base leading-relaxed text-gray-light-10 dark:text-gray-dark-10">{speciesText[species]} </h1>
+                    </div>
+                    <div className="flex w-full items-center px-4 text-center lg:right-8 lg:w-full lg:max-w-2xl lg:px-0" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <div
+                            onClick={() => {
+                                switchSpecies(0);
+                            }}
+                            className="flex flex-row items-center p-2 text-center sm:basis-1/3"
+                            style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
+                        >
+                            <div className="lg:hidden">
+                                <ReactRoundedImage className="hidden items-center rounded-lg px-2 text-center sm:basis-1/4" image="species0.png" roundedColor="#C1F6ED" imageWidth="80" imageHeight="80" roundedSize="10" borderRadius="1000" />
+                            </div>
+                            <div className="hidden lg:flex">
+                                <ReactRoundedImage className="hidden flex-row items-center rounded-lg px-2 text-center sm:basis-1/4 lg:flex" image="species0.png" roundedColor="#C1F6ED" imageWidth="100" imageHeight="100" roundedSize="10" borderRadius="1000" />
+                            </div>
                         </div>
-                        <div className="hidden lg:flex">
-                            <ReactRoundedImage className="hidden flex-row items-center rounded-lg px-2 text-center sm:basis-1/4 lg:flex" image="species1.png" roundedColor="#C1F6ED" imageWidth="100" imageHeight="100" roundedSize="10" borderRadius="1000" />
+                        <div
+                            onClick={() => {
+                                switchSpecies(1);
+                            }}
+                            className="flex flex-row items-center p-2 text-center sm:basis-1/3"
+                            style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
+                        >
+                            <div className="lg:hidden">
+                                <ReactRoundedImage className="hidden items-center rounded-lg px-2 text-center sm:basis-1/4" image="species1.png" roundedColor="#C1F6ED" imageWidth="80" imageHeight="80" roundedSize="10" borderRadius="1000" />
+                            </div>
+                            <div className="hidden lg:flex">
+                                <ReactRoundedImage className="hidden flex-row items-center rounded-lg px-2 text-center sm:basis-1/4 lg:flex" image="species1.png" roundedColor="#C1F6ED" imageWidth="100" imageHeight="100" roundedSize="10" borderRadius="1000" />
+                            </div>
+                        </div>
+                        <div
+                            onClick={() => {
+                                switchSpecies(3);
+                            }}
+                            className="flex flex-row items-center p-2 text-center sm:basis-1/3"
+                            style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
+                        >
+                            <div className="lg:hidden">
+                                <ReactRoundedImage className="hidden items-center rounded-lg px-2 text-center sm:basis-1/4" image="species3.png" roundedColor="#C1F6ED" imageWidth="80" imageHeight="80" roundedSize="10" borderRadius="1000" />
+                            </div>
+                            <div className="hidden lg:flex">
+                                <ReactRoundedImage className="hidden flex-row items-center rounded-lg px-2 text-center sm:basis-1/4 lg:flex" image="species3.png" roundedColor="#C1F6ED" imageWidth="100" imageHeight="100" roundedSize="10" borderRadius="1000" />
+                            </div>
                         </div>
                     </div>
-                    <div
-                        onClick={() => {
-                            switchSpecies(2);
-                        }}
-                        className="flex flex-row items-center p-2 text-center sm:basis-1/4"
-                        style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
-                    >
-                        <div className="lg:hidden">
-                            <ReactRoundedImage className="hidden items-center rounded-lg px-2 text-center sm:basis-1/4" image="species2.png" roundedColor="#C1F6ED" imageWidth="80" imageHeight="80" roundedSize="10" borderRadius="1000" />
+                    <div className="flex w-full" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <button className="px-4">
+                            <img src="/minusIcon.svg" alt="-" />
+                        </button>
+                        <div className="mint_number" style={{ color: "#fff", fontSize: "46px" }}>
+                            0
                         </div>
-                        <div className="hidden lg:flex">
-                            <ReactRoundedImage className="hidden flex-row items-center rounded-lg px-2 text-center sm:basis-1/4 lg:flex" image="species2.png" roundedColor="#C1F6ED" imageWidth="100" imageHeight="100" roundedSize="10" borderRadius="1000" />
-                        </div>
-                    </div>
-                    <div
-                        onClick={() => {
-                            switchSpecies(3);
-                        }}
-                        className="flex flex-row items-center p-2 text-center sm:basis-1/4"
-                        style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
-                    >
-                        <div className="lg:hidden">
-                            <ReactRoundedImage className="hidden items-center rounded-lg px-2 text-center sm:basis-1/4" image="species3.png" roundedColor="#C1F6ED" imageWidth="80" imageHeight="80" roundedSize="10" borderRadius="1000" />
-                        </div>
-                        <div className="hidden lg:flex">
-                            <ReactRoundedImage className="hidden flex-row items-center rounded-lg px-2 text-center sm:basis-1/4 lg:flex" image="species3.png" roundedColor="#C1F6ED" imageWidth="100" imageHeight="100" roundedSize="10" borderRadius="1000" />
-                        </div>
+                        <button className="px-4">
+                            <img src="/plusIcon.svg" alt="+" />
+                        </button>
                     </div>
                 </div>
-                <div className="flex w-full" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <button className="px-4">
-                        <img src="/minusIcon.svg" alt="-" />
-                    </button>
-                    <div className="mint_number" style={{ color: "#fff", fontSize: "46px" }}>
-                        0
-                    </div>
-                    <button className="px-4">
-                        <img src="/plusIcon.svg" alt="+" />
-                    </button>
-                </div>
+                <p
+                    onClick={() => {
+                        mintToken();
+                    }}
+                >
+                    <PrivateSale />
+                </p>
             </div>
-            <p
-                onClick={() => {
-                    mintToken();
-                }}
-            >
-                <PrivateSale />
-            </p>
-        </div>
-    );
+        );
+    } else if (showSwitchToDefaultNetwork) {
+        return (
+            <div className="relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[40px] px-4 text-center align-middle lg:py-20">
+                <h2 className="med-hero-text">
+                    Please Switch Network to <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none sm:py-20">{DEFAULT_CHAIN.name}</span>
+                </h2>
+            </div>
+        );
+    } else {
+        return (
+            <div className="relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[40px] px-4 text-center align-middle lg:py-20">
+                <h2 className="med-hero-text">Please Connect Your Wallet</h2>
+            </div>
+        );
+    }
 };
 
 export default Hero;

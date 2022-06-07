@@ -23,7 +23,7 @@ const HomePageMeta: FunctionComponent<HomePageMetaProps> = ({}) => {
 
             {/* <!-- Twitter Meta Tags --> */}
             <meta name="twitter:card" content="summary_large_image" />
-            <meta property="twitter:domain" content="risedle.com" />
+            <meta property="twitter:domain" content="lokaverse.io" />
             <meta property="twitter:url" content="https://lokaverse.io/" />
             <meta name="twitter:title" content="Loka Blockchain Mining with Renewable Energy" />
             <meta name="twitter:description" content="A simple way to invest on a green energy based blockchain infrastructure, managed by professionals with transparency and reliability" />

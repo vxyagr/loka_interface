@@ -31,7 +31,10 @@ var check = false;
 const HomePage: FunctionComponent<HomePageProps> = ({}) => {
     // By default use dark theme
     // Read global states
-
+    const { chain, account, connectWallet, disconnectWallet, switchNetwork } = useWalletContext();
+    var accountConnected = account ? false : true;
+    accountConnected = false;
+    const [walletConnected, setWalletConnected] = useState(accountConnected);
     const bgCol = { background: "radial-gradient(100.64% 150.78% at 50% -7.3%, #28556C 0%, rgba(10, 47, 12, 0.95) 41.22%, #0A2F0C 63.49%)" };
     return (
         <div className={`${bgCol} h-screen w-full overflow-clip  font-inter`} style={{ background: "radial-gradient(105.51% 158.08% at 50% -14.6%, #28556C 0%, rgba(10, 47, 12, 0.95) 41.22%, #0A2F0C 67.68%)" }}>
@@ -43,7 +46,7 @@ const HomePage: FunctionComponent<HomePageProps> = ({}) => {
             </Head>
             <Favicon />
             <Navigation />
-            <Hero />
+            <Hero accountConnected={!(account ? false : true)} />
         </div>
     );
 };
