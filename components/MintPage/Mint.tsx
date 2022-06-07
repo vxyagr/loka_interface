@@ -117,13 +117,15 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         console.log(txt_);
         console.log(txt2_);
         setNfttext(txt_);
+        console.log(nftText);
     };
     const [totalPrice, setTotalPrice] = useState(0);
     const adjustAmount = async (amountNumber: number) => {
         if (amountNumber >= 0) {
             setAmount(amountNumber);
-            var total_ = amount * nftPrice;
-            setTotalPrice(amount * nftPrice);
+            var total_ = amountNumber * nftPrice;
+            setTotalPrice(total_);
+            console.log(totalPrice.toString());
         }
     };
 
@@ -244,13 +246,13 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
                         mintToken();
                     }}
                 >
-                    <div className="my-1 flex w-full items-center justify-center sm:absolute sm:my-1">
+                    <div className="my-1 flex w-full cursor-pointer items-center justify-center sm:absolute sm:my-1">
                         <div className="z-10 flex w-full flex-col items-center gap-8 px-4 text-center ">
                             <div className="bottom-8 h-14 w-full px-4 lg:bottom-16 lg:h-20  lg:w-48 lg:max-w-2xl lg:px-0">
                                 <div className="flex h-14 flex-row items-center rounded-lg bg-violet-light-3 p-4 hover:bg-violet-light-4 dark:bg-violet-dark-2 hover:dark:bg-violet-dark-3 lg:h-20 " style={{ background: "linear-gradient(77.68deg, #3BCAB0 -20.56%, #DA69EC 21.53%, #C0FFF4 83.03%)", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <a className="align-middle" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                         <span className="leading-0 h-20 align-middle text-base font-semibold  leading-none text-gray-light-12 dark:text-gray-dark-12" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                            MINT FOR {totalPrice.toString()} ETH{" "}
+                                            MINT FOR {totalPrice} ETH{" "}
                                         </span>
                                     </a>
                                 </div>
