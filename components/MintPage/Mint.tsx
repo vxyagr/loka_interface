@@ -142,13 +142,14 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     //const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     //await setTimeout(5000);
     const mintToken = async () => {
-        console.log("MINTING " + species);
-        const addr = account;
-        const result = await contract.mintLoka(amount, species, {
-            value: ethers.utils.parseEther(totalPrice.toString()),
-        });
-
-        await result.wait();
+        if (totalPrice > 0) {
+            console.log("MINTING " + species);
+            const addr = account;
+            const result = await contract.mintLoka(amount, species, {
+                value: ethers.utils.parseEther(totalPrice.toString()),
+            });
+            await result.wait();
+        }
     };
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
