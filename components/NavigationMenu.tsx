@@ -98,7 +98,7 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
                     </li>
 
                     <li className="cursor-pointer">
-                        <a target="_blank" href="https://talkinandy.gitbook.io/loka/getting-started/overview">
+                        <a target="_blank" href="https://talkinandy.gitbook.io/loka/getting-started/overview" rel="noreferrer">
                             <p
                                 className="
                               first::pt-0 
