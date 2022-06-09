@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { FunctionComponent } from "react";
+// @ts-ignore
 import ReactRoundedImage from "react-rounded-image";
 /**
  * ResourcesProps is a React Component properties that passed to React Component Resources
