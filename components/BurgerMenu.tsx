@@ -44,6 +44,11 @@ const BurgerMenu = ({ open }: { open: any }) => {
                         </Link>
                     </li>
                     <li className=" border-b border-black border-opacity-10">
+                        <Link href="/dashboard">
+                            <p className="relative block flex w-full items-center py-3 text-black">DASHBOARD </p>
+                        </Link>
+                    </li>
+                    <li className=" border-b border-black border-opacity-10">
                         <Link href="/about">
                             <p className="relative block flex w-full items-center py-3 text-black">ABOUT </p>
                         </Link>

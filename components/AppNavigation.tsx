@@ -76,7 +76,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
                     </Link>
                 </div>
 
-                <NavigationMenu showWallet={false} />
+                <NavigationMenu showWallet={true} />
 
                 <div className="z-50 lg:hidden">
                     <button>

@@ -43,7 +43,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     //if (window.web3) {
 
     var contractAbi = require("../../abis/LokaNFTABI.json");
-    const contractAddres = "0x3455f69b67B6Ed3dEa836C5464c8710DABF0e38C";
+    const contractAddres = "0xaa015398ebD1f97cB7D887c5aC6dFaaD198E68Bf";
 
     // console.log(accountsList[0])
 
@@ -70,9 +70,8 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         availableSpecies[1] = await contract.getAvailableSpecies(1);
         availableSpecies[2] = await contract.getAvailableSpecies(2);
         availableSpecies[3] = await contract.getAvailableSpecies(3);
-
-        console.log("avao; " + availableSpecies);
     };
+
     var result1;
     const getPrices = async () => {
         prices[0] = await contract.getPrice(0);
@@ -89,7 +88,6 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
 
     const refreshData = async () => {
         //getAvailable();
-        console.log("Refreshing");
         //console.log(dragon.toString());
         //await sleep(5000);
     };
@@ -100,13 +98,10 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         //getAvailable();
         setNfttext("Fetching onchain data...");
 
-        console.log(speciesNumber);
         setSpecies(speciesNumber);
         setChosenImage("species" + speciesNumber + ".png");
         await getAvailable();
         await getPrices();
-
-        console.log("avao 2; " + availableSpecies[speciesNumber]);
         var nftPrice_ = prices[speciesNumber] / 1000000000000000000;
         setNftPrice(nftPrice_);
         var avail_ = availableSpecies[speciesNumber];
@@ -114,10 +109,8 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         adjustAmount(0);
         var txt_ = speciesText[speciesNumber] + " | " + availableSpecies[speciesNumber] + " left | " + prices[speciesNumber] / 1000000000000000000 + " ETH";
         var txt2_ = speciesText[speciesNumber] + " | " + avail + " left | " + nftPrice + " ETH";
-        console.log(txt_);
-        console.log(txt2_);
+
         setNfttext(txt_);
-        console.log(nftText);
     };
     const [totalPrice, setTotalPrice] = useState(0);
     const adjustAmount = async (amountNumber: number) => {
