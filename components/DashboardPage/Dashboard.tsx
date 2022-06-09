@@ -97,7 +97,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         var listLokas = await contract.lokasOfOwner(account);
         //console.log("lokas " + listLokas);
         setDataFethced(true);
-        //if (items.length == listLokas.length && items.length > 0) return;
+        if (items.length == listLokas.length && items.length > 0) return;
         for (const [index, value] of listLokas.entries()) {
             var card_: ICard = { tokenId: 0, yield: 0 };
             card_.tokenId = value[0];
