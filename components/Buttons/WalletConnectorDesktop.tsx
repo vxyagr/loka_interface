@@ -1,7 +1,7 @@
 import { chain, useNetwork, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useSwitchNetwork } from "wagmi";
 import { Dialog, Popover } from "@headlessui/react";
 import Link from "next/link";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, Provider, useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { usePopper } from "react-popper";
@@ -15,6 +15,7 @@ import { ethers } from "ethers";
 // States
 import ButtonClose from "./Close";
 import { switchNetwork } from "@wagmi/core";
+import { AlchemyProviderConfig } from "@wagmi/core/dist/providers/alchemy";
 
 /**
  * ButtonConnectWalletDesktopProps is a React Component properties that passed to React Component ButtonConnectWalletDesktop
@@ -125,7 +126,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                     };
 
                                     const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
-                                    const provider = new ethers.providers.Web3Provider(m.rpcProvider);
+                                    const provider = new ethers.providers.Web3Provider(m.rpcProvider as ethers.provider);
                                     await m.auth.loginWithMagicLink({ email: inputEmail });
                                     setMagicConnector(m);
                                     const { email, publicAddress } = await m.user.getMetadata();
