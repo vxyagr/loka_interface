@@ -246,7 +246,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                     setConnectorName("Magic");
                                                                     const customNodeOptions = {
                                                                         //https://rpc-mumbai.maticvigil.com
-                                                                        rpcUrl: process.env.chainRPC, // Polygon RPC URL
+                                                                        rpcUrl: process.env.chainRPC as string, // Polygon RPC URL
                                                                         chainId: DEFAULT_CHAIN.id, // Polygon chain id
                                                                     };
 
