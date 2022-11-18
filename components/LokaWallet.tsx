@@ -30,17 +30,6 @@ export const getEtherscanAddressURL = (chain: Chain | null, address: string): st
     return "#";
 };
 
-function getMagicConnector() {
-    const customNodeOptions = {
-        rpcUrl: 'https://rpc-mumbai.maticvigil.com/"', // Polygon RPC URL
-        chainId: 80001, // Polygon chain id
-    };
-
-    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
-    const provider = new ethers.providers.Web3Provider(m.rpcProvider);
-    return { m, provider };
-}
-
 export const client = createClient({
     autoConnect: true,
     connectors: [
@@ -69,7 +58,7 @@ export const client = createClient({
     webSocketProvider,
 });
 
-export const DEFAULT_CHAIN = chain.polygonMumbai;
+export const DEFAULT_CHAIN = chain.polygon;
 
 export const LokaContext = React.createContext({
     magicConnector: undefined,
