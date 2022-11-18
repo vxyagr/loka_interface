@@ -17,7 +17,7 @@ const HomePageMeta: FunctionComponent<HomePageMetaProps> = ({}) => {
             {/* <!-- Facebook Meta Tags --> */}
             <meta property="og:url" content="https://lokaverse.io/" />
             <meta property="og:type" content="website" />
-            <meta property="og:title" content="Loka Blockchain Mining with Renewable Energy" />
+            <meta property="og:title" content="Loka Bitcoin Mining with Renewable Energy" />
             <meta property="og:description" content="A simple way to invest on a green energy based blockchain infrastructure, managed by professionals with transparency and reliability" />
             <meta property="og:image" content="https://lokaverse.io/loka_preview.png" />
 
@@ -26,7 +26,7 @@ const HomePageMeta: FunctionComponent<HomePageMetaProps> = ({}) => {
             <meta property="twitter:domain" content="lokaverse.io" />
             <meta property="twitter:url" content="https://twitter.com/lokaversenft" />
             <meta name="twitter:title" content="Loka " />
-            <meta name="twitter:description" content="Loka Blockchain Mining with Renewable Energy" />
+            <meta name="twitter:description" content="Loka Bitcoin Mining with Renewable Energy" />
             <meta name="twitter:image" content="" />
         </>
     );

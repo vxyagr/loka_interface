@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
 
-class RisedleDocument extends Document {
+class LokaDocument extends Document {
     static async getInitialProps(ctx: DocumentContext) {
         const initialProps = await Document.getInitialProps(ctx);
         return { ...initialProps };
@@ -24,4 +24,4 @@ class RisedleDocument extends Document {
     }
 }
 
-export default RisedleDocument;
+export default LokaDocument;

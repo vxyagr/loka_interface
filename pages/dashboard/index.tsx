@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 
 // Import components
-import MintPage from "../../components/DashboardPage/DashboardPage";
+import DashboardPage from "../../components/DashboardPage/DashboardPage";
 
 const Home: NextPage = () => {
-    return <MintPage />;
+    return <DashboardPage />;
 };
 
 export default Home;

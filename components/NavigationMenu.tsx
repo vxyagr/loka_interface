@@ -2,15 +2,9 @@ import Link from "next/link";
 import type { FunctionComponent } from "react";
 import { useState } from "react";
 
-import { Sling as Hamburger } from "hamburger-react";
-
 // Import components
-import Logo from "./Logo";
-import ButtonLaunchBasic from "./Buttons/LaunchBasic";
-import BurgerMenu from "./BurgerMenu";
-import ButtonThemeSwitcher from "./Buttons/ThemeSwitcher";
-import ButtonLaunchGradient from "./Buttons/LaunchGradient";
-import ButtonConnectWalletDesktop from "./Buttons/ConnectWalletDesktop";
+
+import WalletConnectorDesktop from "./Buttons/WalletConnectorDesktop";
 
 // Import logos
 
@@ -67,8 +61,8 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
     return (
         //<div className='{"background":"linear-gradient(89.93deg, #0A2F0C 27.17%, #295771 76.4%, #0A2F0C 99.83%)"} sticky  top-0 z-40 flex flex-row items-center justify-between bg-green-300 p-4 backdrop-blur-lg dark:bg-green-700 '>
         <>
-            <div className="items-right  hidden p-4 lg:flex">
-                <ul className="flex space-x-2">
+            <div className="items-right  hidden p-4 lg:flex" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <ul className="flex space-x-2" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <li className="cursor-pointer">
                         <Link href="/dashboard">
                             <p
@@ -155,7 +149,7 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
                         <>
                             <li className="cursor-pointer">
                                 <div className="hidden p-0 lg:flex">
-                                    <ButtonConnectWalletDesktop />
+                                    <WalletConnectorDesktop />
                                 </div>
                             </li>
                         </>

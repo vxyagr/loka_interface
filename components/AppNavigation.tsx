@@ -2,27 +2,17 @@ import Link from "next/link";
 import type { FunctionComponent } from "react";
 import { useState } from "react";
 
-import { Sling as Hamburger } from "hamburger-react";
-
 // Import components
 import Logo from "./Logo";
-import ButtonLaunchBasic from "./Buttons/LaunchBasic";
 import BurgerMenu from "./BurgerMenu";
-import ButtonThemeSwitcher from "./Buttons/ThemeSwitcher";
-import ButtonLaunchGradient from "./Buttons/LaunchGradient";
 import NavigationMenu from "./NavigationMenu";
-
-// Import logos
-
-// Import utils
-import RisedleLinks from "../utils/links";
 
 // Import popper
 import { usePopper } from "react-popper";
 
 // Import headless ui
 import { Popover, Transition } from "@headlessui/react";
-import ButtonConnectWalletMobile from "./Buttons/ConnectWalletMobile";
+//import ButtonConnectWalletMobile from "./Buttons/ConnectWalletMobile";
 
 /**
  * NavigationProps is a React Component properties that passed to React Component Navigation
@@ -67,9 +57,11 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
     return (
         //<div className='{"background":"linear-gradient(89.93deg, #0A2F0C 27.17%, #295771 76.4%, #0A2F0C 99.83%)"} sticky  top-0 z-40 flex flex-row items-center justify-between bg-green-300 p-4 backdrop-blur-lg dark:bg-green-700 '>
         <>
-            <div className={` lg h-15 sticky top-0 z-40 flex flex-row items-center justify-between py-1 backdrop-blur-lg `}>
+            <div className={` lg sticky top-0 z-40 flex h-[72px] flex-row items-center justify-between py-1 backdrop-blur-lg `} style={{ background: "linear-gradient(89.93deg, #256428 11.39%, #3CADB5 86.52%)" }}>
                 <div className="flex h-16 lg:hidden">
-                    <ButtonConnectWalletMobile />
+                    {
+                        //<ButtonConnectWalletMobile />}
+                    }
                 </div>
 
                 <div className="flex p-4 md:w-[162.8px] lg:flex">

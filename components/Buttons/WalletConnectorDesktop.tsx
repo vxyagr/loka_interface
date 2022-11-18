@@ -1,34 +1,50 @@
+import { chain, useNetwork, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useSwitchNetwork } from "wagmi";
 import { Dialog, Popover } from "@headlessui/react";
 import Link from "next/link";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { usePopper } from "react-popper";
-import { InjectedConnector } from "wagmi";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 // Toasts
 import ToastError from "../Toasts/Error";
 import ToastSuccess from "../Toasts/Success";
+import { getEtherscanAddressURL, formatAddress, DEFAULT_CHAIN, useLokaContext } from "../LokaWallet";
+import { Magic, RPCError, RPCErrorCode } from "magic-sdk";
+import { ethers } from "ethers";
 
 // States
-import { DEFAULT_CHAIN, formatAddress, getEtherscanAddressURL, MetaMaskConnector, useWalletContext, WCConnector, CBConnector } from "../Wallet";
 import ButtonClose from "./Close";
+import { switchNetwork } from "@wagmi/core";
 
 /**
  * ButtonConnectWalletDesktopProps is a React Component properties that passed to React Component ButtonConnectWalletDesktop
  */
-type ButtonConnectWalletDesktopProps = {};
+type WalletConnectorDesktopProps = {};
 
 /**
  * ButtonConnectWalletDesktop is just yet another react component
  *
  * @link https://fettblog.eu/typescript-react/components/#functional-components
  */
-const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopProps> = ({}) => {
+const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = ({}) => {
     // Read global states
-    const { chain, account, connectWallet, disconnectWallet, switchNetwork } = useWalletContext();
+    const { address } = useAccount();
+    const { chain } = useNetwork();
+    const { switchNetwork } = useSwitchNetwork();
+    const { loggedIn, setLoggedIn, magicConnector, setMagicConnector, setMagicAddress, magicAddress, setMagicSigner, magicProvider } = useLokaContext();
+    //const [account, setAccount] = useState(address);
+    const account = loggedIn ? magicAddress : address;
+    console.log("magic logged in " + loggedIn + " acc " + account);
+    const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+    const { disconnect } = useDisconnect();
 
+    /*const customNodeOptions = {
+        rpcUrl: 'https://rpc-mumbai.maticvigil.com/"', // Polygon RPC URL
+        chainId: 80001, // Polygon chain id
+    };
+
+    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
+    const provider = new ethers.providers.Web3Provider(m.rpcProvider); */
     // Local states
     const [isOpen, setIsOpen] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
@@ -36,9 +52,10 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
 
     // UI States
     const showConnectWallet = account ? false : true;
-    const showSwitchToDefaultNetwork = !showConnectWallet && chain.unsupported ? true : false;
-    const showAccountData = !showConnectWallet && !showSwitchToDefaultNetwork;
+    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != 80001 && !loggedIn ? true : false;
+    const showAccountData = true; //!showConnectWallet && !showSwitchToDefaultNetwork;
 
+    //const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     // Popover
     let [referenceElement1, setReferenceElement1] = useState<HTMLButtonElement | null>();
     let [popperElement1, setPopperElement1] = useState<HTMLDivElement | null>();
@@ -59,31 +76,14 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
             },
         ],
     });
-
-    // Connect wallet
-    const connect = async function (c: InjectedConnector | WalletConnectConnector | CoinbaseWalletConnector) {
-        setIsConnecting(true);
-        setConnectorName(c.name);
-
-        const result = await connectWallet(c);
-
-        // Handle the error
-        if (result && result.error) {
-            // Display error
-            toast.remove();
-            toast.custom((t) => <ToastError>{result.error.message}</ToastError>);
-            setIsConnecting(false);
-            setConnectorName(undefined);
-            return;
-        }
-
-        // Account connected
-        toast.remove();
-        toast.custom((t) => <ToastSuccess>{c.name} connected</ToastSuccess>);
-        setIsConnecting(false);
-        setIsOpen(false);
-        setConnectorName(undefined);
+    /*
+    const customNodeOptions = {
+        rpcUrl: 'https://rpc-mumbai.maticvigil.com/"', // Polygon RPC URL
+        chainId: 80001, // Polygon chain id
     };
+
+    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
+    const provider = new ethers.providers.Web3Provider(m.rpcProvider);*/
 
     return (
         <>
@@ -106,11 +106,29 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
                                 className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
-                                    //await connect(MetaMaskConnector);
+                                    setIsConnecting(true);
+                                    setConnectorName("MetaMask");
+                                    const customNodeOptions = {
+                                        //https://rpc-mumbai.maticvigil.com
+                                        rpcUrl: process.env.chainRPC, // Polygon RPC URL
+                                        chainId: 80001, // Polygon chain id
+                                    };
+
+                                    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
+                                    const provider = new ethers.providers.Web3Provider(m.rpcProvider);
+                                    await m.auth.loginWithMagicLink({ email: "hello.angkin@gmail.com" });
+                                    setMagicConnector(m);
+                                    const { email, publicAddress } = await m.user.getMetadata();
+                                    setMagicAddress(publicAddress);
+                                    var signer = provider.getSigner();
+                                    setMagicSigner(signer);
+                                    setLoggedIn(true);
+                                    setIsConnecting(false);
+                                    setIsOpen(false);
                                 }}
                             >
                                 <div>
-                                    <img src="/wallet/google.svg" alt="Magic - Google" className="mr-4 inline-block  self-center" />
+                                    <img src="/wallet/CoinBase.svg" alt="Magic - Google" className="mr-4 inline-block  self-center" />
                                     <span className="m-0 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12">Continue with google</span>
                                 </div>
                                 {isConnecting && connectorName === "Magic" && (
@@ -123,11 +141,16 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
                                     </svg>
                                 )}
                             </button>
+
                             <button
                                 className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
-                                    await connect(MetaMaskConnector);
+                                    setIsConnecting(true);
+                                    setConnectorName("MetaMask");
+                                    await connect({ connector: connectors[0] });
+                                    setIsConnecting(false);
+                                    setIsOpen(false);
                                 }}
                             >
                                 <div>
@@ -148,7 +171,11 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
                                 className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-blue-light-5 bg-blue-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-blue-light-3 active:scale-95 dark:border-blue-dark-5 dark:bg-blue-dark-2 dark:hover:bg-blue-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
-                                    await connect(WCConnector);
+                                    setIsConnecting(true);
+                                    setConnectorName("MetaMask");
+                                    await connect({ connector: connectors[1] });
+                                    setIsConnecting(false);
+                                    setIsOpen(false);
                                 }}
                             >
                                 <div>
@@ -169,7 +196,11 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
                                 className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-blue-light-5 bg-blue-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-blue-light-3 active:scale-95 dark:border-blue-dark-5 dark:bg-blue-dark-2 dark:hover:bg-blue-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
-                                    await connect(CBConnector);
+                                    setIsConnecting(true);
+                                    setConnectorName("MetaMask");
+                                    await connect({ connector: connectors[2] });
+                                    setIsConnecting(false);
+                                    setIsOpen(false);
                                 }}
                             >
                                 <div>
@@ -240,7 +271,7 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
                                     <div className="mx-4 border-b border-dashed border-gray-light-5 pt-4 pb-2 text-xs leading-4 text-gray-light-9 dark:border-gray-dark-3 dark:text-gray-dark-9">Connected via {connectorName}</div>
                                     <div className="mt-2 flex flex-col space-y-4 pb-4">
                                         <div className="flex flex-row justify-between px-4 text-sm leading-4">
-                                            <Link href={getEtherscanAddressURL(chain.chain, account)}>
+                                            <Link href={getEtherscanAddressURL(DEFAULT_CHAIN, account)}>
                                                 <a className="text-gray-light-12 hover:underline dark:text-gray-dark-12" target="_blank" rel="noopener noreferrer">
                                                     View on Explorer <span className="text-gray-light-9 dark:text-gray-dark-9">&#8599;</span>
                                                 </a>
@@ -281,7 +312,10 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
                                                 onClick={() => {
                                                     toast.remove();
                                                     toast.custom((t) => <ToastSuccess>Wallet disconnected</ToastSuccess>);
-                                                    disconnectWallet();
+                                                    disconnect();
+                                                    magicConnector.user.logout();
+                                                    setLoggedIn(false);
+                                                    //setAccount(undefined);
                                                 }}
                                             >
                                                 Disconnect
@@ -305,4 +339,4 @@ const ButtonConnectWalletDesktop: FunctionComponent<ButtonConnectWalletDesktopPr
     );
 };
 
-export default ButtonConnectWalletDesktop;
+export default WalletConnectorDesktop;

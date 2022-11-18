@@ -18,7 +18,8 @@ import BurgerMenu from "../BurgerMenu";
 import ToastError from "../Toasts/Error";
 import ToastSuccess from "../Toasts/Success";
 // States
-import { DEFAULT_CHAIN, formatAddress, getEtherscanAddressURL, MetaMaskConnector, supportedChains, useWalletContext, WCConnector } from "../Wallet";
+//import { DEFAULT_CHAIN, formatAddress, getEtherscanAddressURL, MetaMaskConnector, supportedChains, useWalletContext, WCConnector } from "../Wallet";
+import { getEtherscanAddressURL, formatAddress, DEFAULT_CHAIN, useWalletContext } from "../LokaWallet";
 
 /**
  * ButtonConnectWalletMobileProps is a React Component properties that passed to React Component ButtonConnectWalletMobile
@@ -32,15 +33,22 @@ type ButtonConnectWalletMobileProps = {};
  */
 const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProps> = ({}) => {
     // Read global states
-    const { chain, account, connectWallet, disconnectWallet, switchNetwork } = useWalletContext();
+    const { address } = useAccount();
+    const { chain } = useNetwork();
+    const { switchNetwork } = useSwitchNetwork();
+    const account = address;
+
+    const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+    const { disconnect } = useDisconnect();
 
     // Local states
+    const [isOpen, setIsOpen] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
     const [connectorName, setConnectorName] = useState<string | undefined>(undefined);
 
     // UI States
     const showConnectWallet = account ? false : true;
-    const showSwitchToDefaultNetwork = !showConnectWallet && chain.unsupported ? true : false;
+    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != 80001 ? true : false;
     const showAccountData = !showConnectWallet && !showSwitchToDefaultNetwork;
 
     // Popover
@@ -103,9 +111,9 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
     // Utilities
     const getChainIconPath = (c: Chain): string => {
         switch (c.id) {
-            case Chains.arbitrumOne.id:
+            case Chains.polygonMumbai.id:
                 return "/networks/Arbitrum.svg";
-            case Chains.kovan.id:
+            case Chains.polygon.id:
                 return "/networks/Kovan.svg";
         }
         return "/networks/Arbitrum.svg";

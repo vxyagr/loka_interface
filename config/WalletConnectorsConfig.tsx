@@ -1,5 +1,19 @@
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
+
+// API key for Ethereum node
+// Two popular services are Infura (infura.io) and Alchemy (alchemy.com)
+const infuraId = process.env.INFURA_ID;
+
+// Configure chains for connectors to support
+const { chains } = configureChains(defaultChains, [
+  infuraProvider({ infuraId }),
+  publicProvider()
+]);
+
+// Set up connectors
+export const connectors = [
 import { chain } from "wagmi";
 
 let kovanURL = "";
