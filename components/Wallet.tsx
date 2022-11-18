@@ -6,11 +6,16 @@ import { ethers, providers } from "ethers";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 
-export const connectorStorageKey = "lokaConnectors.wallet";
+export const connectorStorageKey = "stonkerConnectors.wallet";
 
-//export const supportedChains = [Chains.rinkeby, Chains.mainnet, Chains.kovan];
-export const supportedChains = [Chains.rinkeby];
-export const DEFAULT_CHAIN = Chains.rinkeby;
+//export const supportedChains = [Chains.mainnet];
+//export const supportedChains = [Chains.rinkeby];
+export const supportedChains = [Chains];
+
+//export const DEFAULT_CHAIN = Chains.mainnet;
+export const DEFAULT_CHAIN = Chains.polygonMainnet;
+//export const DEFAULT_CHAIN = Chains.rinkeby;
+//
 
 // Wallet connectors
 export const MetaMaskConnector = new InjectedConnector({
@@ -22,16 +27,20 @@ export const WCConnector = new WalletConnectConnector({
     options: {
         qrcode: true,
         rpc: {
-            [Chains.kovan.id]: "https://eth-kovan.alchemyapi.io/v2/qLbNN95iUDTpQqbm5FzgaSPrPJ908VD-",
-            [Chains.rinkeby.id]: "https://rinkeby.infura.io/v3/8051d992532d4f65b1cea01cb751d577",
-            [Chains.arbitrumOne.id]: "https://arb-mainnet.g.alchemy.com/v2/qu4tZ0JUekqqwtcDowbfel-s4S8Z60Oj",
+            //[Chains.mainnet.id]: "https://mainnet.infura.io/v3/75f2e7e272c4462f8ecd289616446a3a",
+            [Chains.polygonMainnet.id]: "https://polygon-mainnet.infura.io/v3/75f2e7e272c4462f8ecd289616446a3a",
+            //[Chains.rinkeby.id]: "https://rinkeby.infura.io/v3/75f2e7e272c4462f8ecd289616446a3a",
+            //[Chains.arbitrumOne.id]: "https://arb-mainnet.g.alchemy.com/v2/qu4tZ0JUekqqwtcDowbfel-s4S8Z60Oj",
         },
     },
 });
 
 export const ArbitrumOneProvider = new providers.JsonRpcProvider("https://arb-mainnet.g.alchemy.com/v2/qu4tZ0JUekqqwtcDowbfel-s4S8Z60Oj", Chains.arbitrumOne.id);
 export const KovanProvider = new providers.JsonRpcProvider("https://eth-kovan.alchemyapi.io/v2/qLbNN95iUDTpQqbm5FzgaSPrPJ908VD-", Chains.kovan.id);
-export const RinkebyProvider = new providers.JsonRpcBatchProvider("https://rinkeby.infura.io/v3/8051d992532d4f65b1cea01cb751d577");
+export const RinkebyProvider = new providers.JsonRpcBatchProvider("https://rinkeby.infura.io/v3/75f2e7e272c4462f8ecd289616446a3a");
+export const MainnetProvider = new providers.JsonRpcBatchProvider("https://mainnet.infura.io/v3/75f2e7e272c4462f8ecd289616446a3a");
+export const PolygonProvider = new providers.JsonRpcBatchProvider("https://polygon-mainnet.infura.io/v3/75f2e7e272c4462f8ecd289616446a3a");
+export const mainnetSigner = MainnetProvider.getSigner();
 export type WalletStates = {
     account: string | undefined;
     chain: { unsupported: Boolean; chain: Chain };
@@ -50,7 +59,8 @@ const WalletContext = createContext<WalletStates>({
     switchNetwork: undefined,
     signer: undefined,
     //provider: ArbitrumOneProvider,
-    provider: RinkebyProvider,
+    //provider: RinkebyProvider,
+    provider: MainnetProvider,
 });
 
 // Persistent states
@@ -58,7 +68,7 @@ enum MetamaskState {
     Connected,
     NotConnected,
 }
-const useMatamaskState = createPersistedState("loka.metamaskState"); // Persist disconnect state on metamask
+const useMatamaskState = createPersistedState("stonker.metamaskState"); // Persist disconnect state on metamask
 
 type WalletGlobalStateProps = {
     children: ReactNode;
@@ -67,7 +77,10 @@ type WalletGlobalStateProps = {
 const getProvider = (config: { chainId?: number }) => {
     switch (config.chainId) {
         case Chains.mainnet.id:
-            return KovanProvider;
+            return MainnetProvider;
+        case Chains.polygonMainnet.id:
+            return PolygonProvider;
+        //return MainnetProvider;
         case Chains.kovan.id:
             return KovanProvider;
         case Chains.arbitrumOne.id:
@@ -75,7 +88,7 @@ const getProvider = (config: { chainId?: number }) => {
         case Chains.rinkeby.id:
             return RinkebyProvider;
         default:
-            return RinkebyProvider;
+            return PolygonProvider;
     }
 };
 
@@ -93,9 +106,13 @@ const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children
     // Connect wallet
     const connectWallet = async function (c: InjectedConnector | WalletConnectConnector) {
         try {
+            disconnect();
             const result = await connect(c);
-            if (result && result.error) return result; // Return error early
-
+            if (result && result.error) {
+                disconnect();
+                console.log(result);
+                return result;
+            } // Return error early
             // Persist metamask connection state
             if (c.name === "MetaMask") {
                 setMetamaskState(MetamaskState.Connected);
@@ -114,6 +131,7 @@ const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children
                 // Reload the page
                 window.location.reload(); // IMPORTANT: Somehow wallectconnect signer connected to mainnet by default, fixed by reloading the page
             }
+            console.log(result);
             return result;
         } catch (e) {
             console.error("Cannot connect");
@@ -126,8 +144,10 @@ const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children
         // Persist data in Metamask
         if (accountData.data?.connector?.name === "MetaMask") {
             setMetamaskState(MetamaskState.NotConnected);
+            console.log(metamaskState);
         }
         // Run the disconnect; esp for wallet connect
+        disconnect();
         disconnect();
     };
 
@@ -135,6 +155,7 @@ const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children
     const chain = accountData.data && networkData.data ? (networkData.data.chain as Chain) : DEFAULT_CHAIN;
     const provider = getProvider({ chainId: chain.id });
     const signer = signerData.data ? signerData.data : provider.getSigner();
+
     const isChainSupported = supportedChains.map((c) => c.id).includes(chain.id);
 
     // account address is defined only if:
