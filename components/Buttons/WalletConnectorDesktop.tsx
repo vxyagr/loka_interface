@@ -49,10 +49,11 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
     const [isOpen, setIsOpen] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
     const [connectorName, setConnectorName] = useState<string | undefined>(undefined);
+    const [inputEmail, setInputEmail] = useState("");
 
     // UI States
     const showConnectWallet = account ? false : true;
-    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != 80001 && !loggedIn ? true : false;
+    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
     const showAccountData = true; //!showConnectWallet && !showSwitchToDefaultNetwork;
 
     //const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
@@ -101,7 +102,17 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                             />
                         </Dialog.Title>
 
-                        <div className="flex flex-col space-y-2 p-4">
+                        <div className="flex flex-col space-y-2 p-4" style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                            <input
+                                className="rounded-md"
+                                type="email"
+                                placeholder="your email@domain"
+                                id="myInput"
+                                onChange={(e) => {
+                                    setInputEmail(e.currentTarget.value);
+                                }}
+                                style={{ width: "300px", padding: "5px", textAlign: "center" }}
+                            ></input>
                             <button
                                 className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
@@ -111,12 +122,12 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                     const customNodeOptions = {
                                         //https://rpc-mumbai.maticvigil.com
                                         rpcUrl: process.env.chainRPC, // Polygon RPC URL
-                                        chainId: 80001, // Polygon chain id
+                                        chainId: DEFAULT_CHAIN.id, // Polygon chain id
                                     };
 
                                     const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
                                     const provider = new ethers.providers.Web3Provider(m.rpcProvider);
-                                    await m.auth.loginWithMagicLink({ email: "hello.angkin@gmail.com" });
+                                    await m.auth.loginWithMagicLink({ email: inputEmail });
                                     setMagicConnector(m);
                                     const { email, publicAddress } = await m.user.getMetadata();
                                     setMagicAddress(publicAddress);
@@ -127,9 +138,10 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                     setIsOpen(false);
                                 }}
                             >
-                                <div>
-                                    <img src="/wallet/CoinBase.svg" alt="Magic - Google" className="mr-4 inline-block  self-center" />
-                                    <span className="m-0 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12">Continue with google</span>
+                                <div style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                                    <span className="m-3 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12" style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                                        Continue with your email
+                                    </span>
                                 </div>
                                 {isConnecting && connectorName === "Magic" && (
                                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="float-right inline-block animate-spin">
@@ -141,9 +153,9 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                     </svg>
                                 )}
                             </button>
-
+                            <div className={"py-[20px]"}></div>
                             <button
-                                className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
+                                className={`m-0  flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
                                     setIsConnecting(true);

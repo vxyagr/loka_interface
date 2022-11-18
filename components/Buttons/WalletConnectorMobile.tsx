@@ -5,21 +5,23 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { usePopper } from "react-popper";
 import createPersistedState from "use-persisted-state";
-import { Chain, chain as Chains, InjectedConnector, useAccount, useConnect, useNetwork } from "wagmi";
+import { chain, useNetwork, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useSwitchNetwork } from "wagmi";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import RisedleLinks from "../../utils/links";
+
 import { Sling as Hamburger } from "hamburger-react";
+import { Magic, RPCError, RPCErrorCode } from "magic-sdk";
+import { ethers } from "ethers";
 
 // Import components
 import Logo from "../Logo";
-import ButtonLaunchBasic from "../Buttons/LaunchBasic";
+import ButtonLaunchBasic from "./LaunchBasic";
 import BurgerMenu from "../BurgerMenu";
 // Toasts
 import ToastError from "../Toasts/Error";
 import ToastSuccess from "../Toasts/Success";
 // States
 //import { DEFAULT_CHAIN, formatAddress, getEtherscanAddressURL, MetaMaskConnector, supportedChains, useWalletContext, WCConnector } from "../Wallet";
-import { getEtherscanAddressURL, formatAddress, DEFAULT_CHAIN, useWalletContext } from "../LokaWallet";
+import { getEtherscanAddressURL, formatAddress, DEFAULT_CHAIN, useLokaContext } from "../LokaWallet";
 
 /**
  * ButtonConnectWalletMobileProps is a React Component properties that passed to React Component ButtonConnectWalletMobile
@@ -34,10 +36,13 @@ type ButtonConnectWalletMobileProps = {};
 const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProps> = ({}) => {
     // Read global states
     const { address } = useAccount();
+    const [inputEmail, setInputEmail] = useState("");
     const { chain } = useNetwork();
     const { switchNetwork } = useSwitchNetwork();
-    const account = address;
-
+    const { loggedIn, setLoggedIn, magicConnector, setMagicConnector, setMagicAddress, magicAddress, setMagicSigner, magicProvider } = useLokaContext();
+    //const [account, setAccount] = useState(address);
+    const account = loggedIn ? magicAddress : address;
+    console.log("magic logged in " + loggedIn + " acc " + account);
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
     const { disconnect } = useDisconnect();
 
@@ -48,8 +53,8 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
 
     // UI States
     const showConnectWallet = account ? false : true;
-    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id ? true : false;
-    const showAccountData = !showConnectWallet && !showSwitchToDefaultNetwork;
+    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
+    const showAccountData = true; //!showConnectWallet && !showSwitchToDefaultNetwork;
 
     // Popover
     let [referenceElement1, setReferenceElement1] = useState<HTMLButtonElement | null>();
@@ -109,39 +114,9 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
     });
 
     // Utilities
-    const getChainIconPath = (c: Chain): string => {
-        switch (c.id) {
-            case Chains.polygonMumbai.id:
-                return "/networks/Arbitrum.svg";
-            case Chains.polygon.id:
-                return "/networks/Kovan.svg";
-        }
-        return "/networks/Arbitrum.svg";
-    };
+
     const [openMenu, setOpenMenu] = useState(false);
     // Connect wallet
-    const connect = async function (c: InjectedConnector | WalletConnectConnector) {
-        setIsConnecting(true);
-        setConnectorName(c.name);
-
-        const result = await connectWallet(c);
-
-        // Handle the error
-        if (result && result.error) {
-            // Display error
-            toast.remove();
-            toast.custom((t) => <ToastError>{result.error.message}</ToastError>);
-            setIsConnecting(false);
-            setConnectorName(undefined);
-            return;
-        }
-
-        // Account connected
-        toast.remove();
-        toast.custom((t) => <ToastSuccess>{c.name} connected</ToastSuccess>);
-        setIsConnecting(false);
-        setConnectorName(undefined);
-    };
 
     return (
         <>
@@ -163,7 +138,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                             <>
                                 <Link href={"/"}>
                                     <p className="button basic w-[40px] p-2 outline-0">
-                                        <img src="favico_loka.png" alt={chain.chain.name} style={{ maxWidth: "38px" }} className="flex-shrink-0" />
+                                        <img src="favico_loka.png" alt={DEFAULT_CHAIN.name} style={{ maxWidth: "38px" }} className="flex-shrink-0" />
                                     </p>
                                     {/**{getChainIconPath(chain.chain)}   <Popover.Button ref={setReferenceElement1} className="button basic w-[40px] p-2 outline-0">*/}
                                 </Link>
@@ -173,41 +148,33 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                             <>
                                                 <div className="border-b border-dashed border-gray-light-3 pb-2 text-xs text-gray-light-9 dark:border-gray-dark-3 dark:text-gray-dark-9">Switch network</div>
                                                 <div className="mt-2 flex flex-col space-y-4 text-left">
-                                                    {supportedChains.map((c) => {
-                                                        return (
-                                                            <button
-                                                                className="m-0 flex w-full flex-row items-center justify-between text-left"
-                                                                onClick={async () => {
-                                                                    if (!account) {
-                                                                        toast.remove();
-                                                                        toast.custom((t) => <ToastError>Please connect your wallet first</ToastError>);
-                                                                        return;
-                                                                    }
+                                                    <button
+                                                        className="m-0 flex w-full flex-row items-center justify-between text-left"
+                                                        onClick={async () => {
+                                                            if (!account) {
+                                                                toast.remove();
+                                                                toast.custom((t) => <ToastError>Please connect your wallet first</ToastError>);
+                                                                return;
+                                                            }
 
-                                                                    if (switchNetwork) {
-                                                                        const result = await switchNetwork(c.id);
-                                                                        if (result.error) {
-                                                                            toast.remove();
-                                                                            toast.custom((t) => <ToastError>{result.error.message}</ToastError>);
-                                                                            return;
-                                                                        }
-                                                                        toast.remove();
-                                                                        toast.custom((t) => <ToastSuccess>Switched to {c.name}</ToastSuccess>);
-                                                                        return;
-                                                                    } else {
-                                                                        toast.remove();
-                                                                        toast.custom((t) => <ToastError>Cannot switch network automatically in WalletConnect. Please change network directly from your wallet.</ToastError>);
-                                                                        return;
-                                                                    }
-                                                                }}
-                                                                key={c.id}
-                                                            >
-                                                                <span className="m-0 text-sm font-normal leading-none text-gray-light-12 dark:text-gray-dark-12">{c.name}</span>
+                                                            if (switchNetwork) {
+                                                                const result = await switchNetwork(DEFAULT_CHAIN.id);
 
-                                                                <img src={getChainIconPath(c)} alt={c.name} className="inline-block self-center" />
-                                                            </button>
-                                                        );
-                                                    })}
+                                                                toast.remove();
+                                                                toast.custom((t) => <ToastSuccess>Switched to {DEFAULT_CHAIN.name}</ToastSuccess>);
+                                                                return;
+                                                            } else {
+                                                                toast.remove();
+                                                                toast.custom((t) => <ToastError>Cannot switch network automatically in WalletConnect. Please change network directly from your wallet.</ToastError>);
+                                                                return;
+                                                            }
+                                                        }}
+                                                        key={DEFAULT_CHAIN.id}
+                                                    >
+                                                        <span className="m-0 text-sm font-normal leading-none text-gray-light-12 dark:text-gray-dark-12">{DEFAULT_CHAIN.name}</span>
+
+                                                        <img src={DEFAULT_CHAIN.name} alt={DEFAULT_CHAIN.name} className="inline-block self-center" />
+                                                    </button>
                                                 </div>
                                             </>
                                         );
@@ -259,11 +226,62 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                         </div>
 
                                                         <div className="flex flex-col space-y-2 p-4">
+                                                            <div style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                                                                <input
+                                                                    className={"rounded-md"}
+                                                                    type="email"
+                                                                    placeholder="your email@domain"
+                                                                    id="myInput"
+                                                                    onChange={(e) => {
+                                                                        setInputEmail(e.currentTarget.value);
+                                                                    }}
+                                                                    style={{ width: "300px", padding: "5px", textAlign: "center" }}
+                                                                ></input>
+                                                            </div>
                                                             <button
                                                                 className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                                                 disabled={isConnecting && connectorName ? true : false}
                                                                 onClick={async () => {
-                                                                    await connect(MetaMaskConnector);
+                                                                    setIsConnecting(true);
+                                                                    setConnectorName("Magic");
+                                                                    const customNodeOptions = {
+                                                                        //https://rpc-mumbai.maticvigil.com
+                                                                        rpcUrl: process.env.chainRPC, // Polygon RPC URL
+                                                                        chainId: DEFAULT_CHAIN.id, // Polygon chain id
+                                                                    };
+
+                                                                    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
+                                                                    const provider = new ethers.providers.Web3Provider(m.rpcProvider);
+                                                                    await m.auth.loginWithMagicLink({ email: "hello.angkin@gmail.com" });
+                                                                    setMagicConnector(m);
+                                                                    const { email, publicAddress } = await m.user.getMetadata();
+                                                                    setMagicAddress(publicAddress);
+                                                                    var signer = provider.getSigner();
+                                                                    setMagicSigner(signer);
+                                                                    setLoggedIn(true);
+                                                                    setIsConnecting(false);
+                                                                    close();
+                                                                }}
+                                                            >
+                                                                <div>
+                                                                    <span className="m-0 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12">Continue with you email</span>
+                                                                </div>
+                                                                {isConnecting && connectorName === "Magic" && (
+                                                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="float-right inline-block animate-spin">
+                                                                        <path opacity="0.2" d="M28 16.0005C28 22.6279 22.6274 28.0005 16 28.0005C9.37258 28.0005 4 22.6279 4 16.0005C4 9.37307 9.37258 4.00049 16 4.00049C22.6274 4.00049 28 9.37307 28 16.0005ZM6.4 16.0005C6.4 21.3024 10.6981 25.6005 16 25.6005C21.3019 25.6005 25.6 21.3024 25.6 16.0005C25.6 10.6986 21.3019 6.40049 16 6.40049C10.6981 6.40049 6.4 10.6986 6.4 16.0005Z" className="fill-gray-light-12 dark:fill-gray-dark-12" />
+                                                                        <path
+                                                                            d="M26.8 16.0005C27.4627 16.0005 28.0062 16.5391 27.9401 17.1985C27.7286 19.3064 26.9618 21.3285 25.7082 23.0539C24.2187 25.1041 22.1183 26.6301 19.7082 27.4132C17.2981 28.1963 14.7019 28.1963 12.2918 27.4132C10.2635 26.7541 8.45455 25.5689 7.04447 23.9879C6.60334 23.4933 6.72645 22.7381 7.26262 22.3486C7.79879 21.959 8.5442 22.0841 8.99756 22.5675C10.1008 23.7439 11.4874 24.6283 13.0334 25.1306C14.9615 25.7571 17.0385 25.7571 18.9666 25.1306C20.8947 24.5042 22.5749 23.2834 23.7666 21.6432C24.722 20.3281 25.324 18.7975 25.5251 17.1974C25.6077 16.5398 26.1373 16.0005 26.8 16.0005Z"
+                                                                            className="fill-gray-light-12 dark:fill-gray-dark-12"
+                                                                        />
+                                                                    </svg>
+                                                                )}
+                                                            </button>
+                                                            <div className={"py-[20px]"}></div>
+                                                            <button
+                                                                className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
+                                                                disabled={isConnecting && connectorName ? true : false}
+                                                                onClick={async () => {
+                                                                    await connect({ connector: connectors[0] });
                                                                     close();
                                                                 }}
                                                             >
@@ -285,7 +303,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                 className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-blue-light-5 bg-blue-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-blue-light-3 active:scale-95 dark:border-blue-dark-5 dark:bg-blue-dark-2 dark:hover:bg-blue-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                                                 disabled={isConnecting && connectorName ? true : false}
                                                                 onClick={async () => {
-                                                                    await connect(WCConnector);
+                                                                    await connect({ connector: connectors[1] });
                                                                     close();
                                                                 }}
                                                             >
@@ -294,6 +312,28 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                     <span className="m-0 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12">Wallet Connect</span>
                                                                 </div>
                                                                 {isConnecting && connectorName === "WalletConnect" && (
+                                                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="float-right inline-block animate-spin">
+                                                                        <path opacity="0.2" d="M28 16.0005C28 22.6279 22.6274 28.0005 16 28.0005C9.37258 28.0005 4 22.6279 4 16.0005C4 9.37307 9.37258 4.00049 16 4.00049C22.6274 4.00049 28 9.37307 28 16.0005ZM6.4 16.0005C6.4 21.3024 10.6981 25.6005 16 25.6005C21.3019 25.6005 25.6 21.3024 25.6 16.0005C25.6 10.6986 21.3019 6.40049 16 6.40049C10.6981 6.40049 6.4 10.6986 6.4 16.0005Z" className="fill-gray-light-12 dark:fill-gray-dark-12" />
+                                                                        <path
+                                                                            d="M26.8 16.0005C27.4627 16.0005 28.0062 16.5391 27.9401 17.1985C27.7286 19.3064 26.9618 21.3285 25.7082 23.0539C24.2187 25.1041 22.1183 26.6301 19.7082 27.4132C17.2981 28.1963 14.7019 28.1963 12.2918 27.4132C10.2635 26.7541 8.45455 25.5689 7.04447 23.9879C6.60334 23.4933 6.72645 22.7381 7.26262 22.3486C7.79879 21.959 8.5442 22.0841 8.99756 22.5675C10.1008 23.7439 11.4874 24.6283 13.0334 25.1306C14.9615 25.7571 17.0385 25.7571 18.9666 25.1306C20.8947 24.5042 22.5749 23.2834 23.7666 21.6432C24.722 20.3281 25.324 18.7975 25.5251 17.1974C25.6077 16.5398 26.1373 16.0005 26.8 16.0005Z"
+                                                                            className="fill-gray-light-12 dark:fill-gray-dark-12"
+                                                                        />
+                                                                    </svg>
+                                                                )}
+                                                            </button>
+                                                            <button
+                                                                className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-blue-light-5 bg-blue-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-blue-light-3 active:scale-95 dark:border-blue-dark-5 dark:bg-blue-dark-2 dark:hover:bg-blue-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
+                                                                disabled={isConnecting && connectorName ? true : false}
+                                                                onClick={async () => {
+                                                                    await connect({ connector: connectors[2] });
+                                                                    close();
+                                                                }}
+                                                            >
+                                                                <div>
+                                                                    <img src="/wallet/CoinBase.svg" alt="Coinbase" className="mr-4 inline-block  self-center" />
+                                                                    <span className="m-0 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12">Coinbase</span>
+                                                                </div>
+                                                                {isConnecting && connectorName === "Coinbase" && (
                                                                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="float-right inline-block animate-spin">
                                                                         <path opacity="0.2" d="M28 16.0005C28 22.6279 22.6274 28.0005 16 28.0005C9.37258 28.0005 4 22.6279 4 16.0005C4 9.37307 9.37258 4.00049 16 4.00049C22.6274 4.00049 28 9.37307 28 16.0005ZM6.4 16.0005C6.4 21.3024 10.6981 25.6005 16 25.6005C21.3019 25.6005 25.6 21.3024 25.6 16.0005C25.6 10.6986 21.3019 6.40049 16 6.40049C10.6981 6.40049 6.4 10.6986 6.4 16.0005Z" className="fill-gray-light-12 dark:fill-gray-dark-12" />
                                                                         <path
@@ -353,7 +393,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                         <div className="mx-4 border-b border-dashed border-gray-light-5 pt-4 pb-2 text-xs leading-4 text-gray-light-9 dark:border-gray-dark-3 dark:text-gray-dark-9">Connected via {connectorName}</div>
                                                         <div className="mt-2 flex flex-col space-y-4 pb-4">
                                                             <div className="flex flex-row justify-between px-4 text-sm leading-4">
-                                                                <Link href={getEtherscanAddressURL(chain.chain, account)}>
+                                                                <Link href={getEtherscanAddressURL(DEFAULT_CHAIN, account)}>
                                                                     <a className="text-gray-light-12 hover:underline dark:text-gray-dark-12" target="_blank" rel="noopener noreferrer">
                                                                         View on Explorer <span className="text-gray-light-9 dark:text-gray-dark-9">&#8599;</span>
                                                                     </a>
@@ -404,7 +444,9 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                 <button
                                                                     className="text-red-light-10 hover:underline dark:text-red-dark-10"
                                                                     onClick={() => {
-                                                                        disconnectWallet();
+                                                                        disconnect();
+                                                                        magicConnector.user.logout();
+                                                                        setLoggedIn(false);
                                                                         toast.remove();
                                                                         toast.custom((t) => <ToastSuccess>Wallet disconnected</ToastSuccess>);
                                                                     }}

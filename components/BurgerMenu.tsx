@@ -48,16 +48,6 @@ const BurgerMenu = ({ open }: { open: any }) => {
                             <p className="relative block flex w-full items-center py-3 text-black">DASHBOARD </p>
                         </Link>
                     </li>
-                    <li className=" border-b border-black border-opacity-10">
-                        <Link href="/mint">
-                            <p className="relative block flex w-full items-center py-3 text-black">BUY </p>
-                        </Link>
-                    </li>
-                    <li className=" border-b border-black border-opacity-10">
-                        <Link href="/about">
-                            <p className="relative block flex w-full items-center py-3 text-black">ABOUT </p>
-                        </Link>
-                    </li>
 
                     <li className=" border-b border-black border-opacity-10">
                         <Link href="https://talkinandy.gitbook.io/loka/getting-started/overview">

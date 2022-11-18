@@ -12,7 +12,7 @@ import { usePopper } from "react-popper";
 
 // Import headless ui
 import { Popover, Transition } from "@headlessui/react";
-//import ButtonConnectWalletMobile from "./Buttons/ConnectWalletMobile";
+import ButtonConnectWalletMobile from "./Buttons/WalletConnectorMobile";
 
 /**
  * NavigationProps is a React Component properties that passed to React Component Navigation
@@ -59,9 +59,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
         <>
             <div className={` lg sticky top-0 z-40 flex h-[72px] flex-row items-center justify-between py-1 backdrop-blur-lg `} style={{ background: "linear-gradient(89.93deg, #256428 11.39%, #3CADB5 86.52%)" }}>
                 <div className="flex h-16 lg:hidden">
-                    {
-                        //<ButtonConnectWalletMobile />}
-                    }
+                    <ButtonConnectWalletMobile />
                 </div>
 
                 <div className="flex p-4 md:w-[162.8px] lg:flex">
