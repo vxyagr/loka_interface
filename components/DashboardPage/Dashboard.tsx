@@ -15,33 +15,27 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     const { address } = useAccount();
     const { chain } = useNetwork();
     const account = address;
-    // const [account, setAccount] = useState(address?.toString());
+
     const { data: signer, isError, isLoading } = useSigner();
 
-    //const [nftContract, setNFTContract] = useState(null);
-    //check if prefer to use magic and check if connected
-    //const [showConnectWallet, setShowConnectWallet] = useState(false);
     const { loggedIn, magicConnector, magicSigner } = useLokaContext();
     const contractSigner = loggedIn ? magicSigner : signer;
 
+    const showConnectWallet = account || loggedIn ? false : true;
+    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
+
     var contractAbi = require("../../abis/LokaNFTABI.json");
     var USDCAbi = require("../../abis/USDCPolygonABI.json");
+    if (!showConnectWallet) {
+    }
     const nftContract = new ethers.Contract(process.env.lokaNFTContract as string, contractAbi, contractSigner as ethers.Signer);
     const usdcContract = new ethers.Contract(process.env.USDCContract as string, USDCAbi, contractSigner as ethers.Signer);
-    // Setting network to Polygon - Testnet
-    //const [magic, setM] = useState(new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions }));
-    // const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
-    /*contract setup
-    const contract = new ethers.Contract(contractAddres, contractAbi, signer);
-    */
 
     const [nftPrice, setNftPrice] = useState(0);
     const [amount, setAmount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const getAvailable = async () => {
-        //console.log("loggeged : " + loggedIn + " signer : " + contractSigner);
         var name = await nftContract.totalSupply();
-        //console.log("nama loka : " + name);
     };
 
     const getPrice = async () => {
@@ -58,7 +52,6 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
 
     const mintLoka = async () => {
         if (totalPrice > 0) {
-            //console.log("MINTING " + species);
             //approve USDC transfer
             const approveResult = await usdcContract.approve(process.env.lokaNFTContract, totalPrice);
             //await result.wait();
@@ -79,12 +72,6 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
         }
     };
 
-    //setAccount(address);
-    //setShowConnectWallet(account ? true : false);
-    const showConnectWallet = account || loggedIn ? false : true;
-    const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
-    //console.log("chain! " + chain?.id);
-
     useEffect(() => {
         //console.log("contract addr " + process.env.lokaNFTContract);
         getPrice();
@@ -93,18 +80,14 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
             // createNFTContract();
             // setContract(contract);
         }
-        //if (account) setShowConnectWallet(false);
-        // else setShowConnectWallet(true);
-
-        // console.log("magic is " + loggedIn, "signer " + contractSigner?.toString() + " address " + address + "show wallet " + showConnectWallet);
-        //console.log("price : " + nftPrice);
     }, [account]);
+
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
             <div className="relative h-full min-h-[500px] w-full justify-center overflow-hidden bg-white text-green-dark-10">
-                <div className="relative z-10 m-auto flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10">
-                    <div className="relative z-10 m-auto flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10">
-                        <div className="px-4 py-6 text-center sm:basis-1/4 sm:pl-8">
+                <div className="relative z-10  flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div className="relative z-10 flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <div className="px-4 py-6 text-center sm:basis-1/4 " style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
                                 <div className="flex w-full text-center align-middle" style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <div

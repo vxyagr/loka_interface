@@ -9,7 +9,7 @@ export const createMagic = async () => {
         chainId: DEFAULT_CHAIN.id, // Polygon chain id
     };
 
-    return new Magic(process.env.chainRPC as string, {
+    return new Magic(process.env.MAGIC_KEY as string, {
         network: customNodeOptions,
     });
 };

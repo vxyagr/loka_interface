@@ -83,7 +83,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
         const m = await createMagic();
         return m;
     };
-
+    console.log("point a");
     return (
         <>
             <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 z-20 overflow-y-auto">
