@@ -43,7 +43,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
     const { loggedIn, setLoggedIn, magicConnector, setMagicConnector, setMagicAddress, magicAddress, setMagicSigner, magicProvider } = useLokaContext();
     //const [account, setAccount] = useState(address);
     const account = loggedIn ? magicAddress : address;
-    console.log("magic logged in " + loggedIn + " acc " + account);
+    //console.log("magic logged in " + loggedIn + " acc " + account);
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
     const { disconnect } = useDisconnect();
 
