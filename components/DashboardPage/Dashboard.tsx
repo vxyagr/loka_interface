@@ -39,15 +39,15 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     const [amount, setAmount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const getAvailable = async () => {
-        console.log("loggeged : " + loggedIn + " signer : " + contractSigner);
+        //console.log("loggeged : " + loggedIn + " signer : " + contractSigner);
         var name = await nftContract.totalSupply();
-        console.log("nama loka : " + name);
+        //console.log("nama loka : " + name);
     };
 
     const getPrice = async () => {
+        //console.log("contract addr " + process.env.lokaNFTContract);
         var price = await nftContract.getPrice();
         setNftPrice(price);
-        console.log("contract addr " + process.env.lokaNFTContract);
     };
     const [owned, setOwned] = useState(0);
     const getOwnedLoka = async () => {
@@ -68,6 +68,8 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     };
 
     const adjustAmount = async (amountNumber: number) => {
+        console.log("ajudst");
+        await getPrice();
         if (amountNumber >= 0) {
             setAmount(amountNumber);
 
@@ -81,10 +83,10 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     //setShowConnectWallet(account ? true : false);
     const showConnectWallet = account || loggedIn ? false : true;
     const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
-    console.log("chain! " + chain?.id);
+    //console.log("chain! " + chain?.id);
 
     useEffect(() => {
-        console.log("contract addr " + process.env.lokaNFTContract);
+        //console.log("contract addr " + process.env.lokaNFTContract);
         getPrice();
         getOwnedLoka();
         if (account && signer) {
@@ -95,7 +97,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
         // else setShowConnectWallet(true);
 
         // console.log("magic is " + loggedIn, "signer " + contractSigner?.toString() + " address " + address + "show wallet " + showConnectWallet);
-        console.log("price : " + nftPrice);
+        //console.log("price : " + nftPrice);
     }, [account]);
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
