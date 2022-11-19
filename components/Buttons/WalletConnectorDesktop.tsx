@@ -11,7 +11,7 @@ import ToastSuccess from "../Toasts/Success";
 import { getEtherscanAddressURL, formatAddress, DEFAULT_CHAIN, useLokaContext } from "../LokaWallet";
 import { Magic, RPCError, RPCErrorCode } from "magic-sdk";
 import { ethers } from "ethers";
-
+import { createMagic } from "../magicObject";
 // States
 import ButtonClose from "./Close";
 import { switchNetwork } from "@wagmi/core";
@@ -36,7 +36,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
 
     //const [account, setAccount] = useState(address);
     const account = loggedIn ? magicAddress : address;
-    console.log("magic logged in " + loggedIn + " acc " + account);
+    console.log("magic logged in : " + loggedIn + " acc " + account);
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
     const { disconnect } = useDisconnect();
 
@@ -79,14 +79,10 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
             },
         ],
     });
-    /* const customNodeOptions = {
-        rpcUrl: process.env.chainRPC as string, // Polygon RPC URL
-        chainId: DEFAULT_CHAIN.id, // Polygon chain id
+    const getMagic = async () => {
+        const m = await createMagic();
+        return m;
     };
-
-    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
-
-    const provider = new ethers.providers.Web3Provider(m.rpcProvider as any); */
 
     return (
         <>
@@ -119,19 +115,20 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                 className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
-                                    /*setIsConnecting(true);
-                                    setConnectorName("MetaMask");
-
+                                    setIsConnecting(true);
+                                    setConnectorName("Magic");
+                                    //console.log("magic connecting");
+                                    const m = await getMagic();
                                     await m.auth.loginWithMagicLink({ email: inputEmail });
                                     setMagicConnector(m);
                                     const { email, publicAddress } = await m.user.getMetadata();
-
+                                    const provider = new ethers.providers.Web3Provider(m.rpcProvider as any);
                                     setMagicAddress(publicAddress);
                                     var signer = provider.getSigner();
                                     setMagicSigner(signer);
                                     setLoggedIn(true);
                                     setIsConnecting(false);
-                                    setIsOpen(false);*/
+                                    setIsOpen(false);
                                 }}
                             >
                                 <div style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
@@ -317,15 +314,16 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                         <div className="flex flex-row justify-between px-4 text-sm leading-4">
                                             <button
                                                 className="text-red-light-10 hover:underline dark:text-red-dark-10"
-                                                onClick={() => {
+                                                onClick={async () => {
                                                     toast.remove();
                                                     toast.custom((t) => <ToastSuccess>Wallet disconnected</ToastSuccess>);
                                                     disconnect();
 
-                                                    // m.user.logout();
-
-                                                    //setLoggedIn(false);
-                                                    //setAccount(undefined);
+                                                    const m = await getMagic();
+                                                    if (loggedIn) {
+                                                        m.user.logout();
+                                                        setLoggedIn(false);
+                                                    }
                                                 }}
                                             >
                                                 Disconnect

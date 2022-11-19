@@ -3,7 +3,7 @@ import React, { FunctionComponent, ReactNode, createContext, useContext } from "
 import createPersistedState from "use-persisted-state";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { magicObject } from "./magicObject";
+import { createMagic } from "./magicObject";
 
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
