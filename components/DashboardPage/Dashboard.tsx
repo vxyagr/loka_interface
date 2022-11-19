@@ -26,8 +26,8 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
 
     var contractAbi = require("../../abis/LokaNFTABI.json");
     var USDCAbi = require("../../abis/USDCPolygonABI.json");
-    const nftContract = new ethers.Contract(process.env.lokaNFTContract, contractAbi, contractSigner);
-    const usdcContract = new ethers.Contract(process.env.USDCContract, USDCAbi, contractSigner);
+    const nftContract = new ethers.Contract(process.env.lokaNFTContract as string, contractAbi, contractSigner as ethers.Signer);
+    const usdcContract = new ethers.Contract(process.env.USDCContract as string, USDCAbi, contractSigner as ethers.Signer);
     // Setting network to Polygon - Testnet
     //const [magic, setM] = useState(new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions }));
     // const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
@@ -81,6 +81,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     //setShowConnectWallet(account ? true : false);
     const showConnectWallet = account || loggedIn ? false : true;
     const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
+    console.log("chain! " + chain?.id);
 
     useEffect(() => {
         console.log("contract addr " + process.env.lokaNFTContract);

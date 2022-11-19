@@ -2,18 +2,11 @@ import Head from "next/head";
 import type { FunctionComponent } from "react";
 import React, { useState } from "react";
 import Favicon from "../Favicon";
-import Footer from "../Footer";
+
 import Dashboard from "./Dashboard";
-import PrivateSale from "./PrivateSale";
+
 import Navigation from "../AppNavigation";
 import DashboardMeta from "./DashboardPageMeta";
-import { useMarkets } from "../../utils/snapshot";
-import ButtonConnectWalletMobile from "../Buttons/ConnectWalletMobile";
-
-import { ethers, providers } from "ethers";
-
-import ButtonConnectWalletDesktop from "../Buttons/ConnectWalletDesktop";
-import Axios from "axios";
 
 /**
  * HomePageProps is a React Component properties that passed to React Component HomePage

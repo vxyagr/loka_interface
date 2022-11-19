@@ -6,23 +6,17 @@ import { Sling as Hamburger } from "hamburger-react";
 
 // Import components
 import Logo from "./Logo";
-import ButtonLaunchBasic from "./Buttons/LaunchBasic";
+
 import BurgerMenu from "./BurgerMenu";
-import ButtonThemeSwitcher from "./Buttons/ThemeSwitcher";
-import ButtonLaunchGradient from "./Buttons/LaunchGradient";
+
 import NavigationMenu from "./NavigationMenu";
 
 // Import logos
-
-// Import utils
-import RisedleLinks from "../utils/links";
 
 // Import popper
 import { usePopper } from "react-popper";
 
 // Import headless ui
-import { Popover, Transition } from "@headlessui/react";
-import ButtonConnectWalletMobile from "./Buttons/ConnectWalletMobile";
 
 /**
  * NavigationProps is a React Component properties that passed to React Component Navigation

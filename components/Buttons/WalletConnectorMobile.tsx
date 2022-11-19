@@ -7,6 +7,7 @@ import { usePopper } from "react-popper";
 import createPersistedState from "use-persisted-state";
 import { chain, useNetwork, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useSwitchNetwork } from "wagmi";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { magicObject } from "../magicObject";
 
 import { Sling as Hamburger } from "hamburger-react";
 import { Magic, RPCError, RPCErrorCode } from "magic-sdk";
@@ -112,9 +113,18 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
             },
         ],
     });
+    //const m = magicObject;
+    if (typeof window !== "undefined") {
+    }
+    /*  const customNodeOptions = {
+        rpcUrl: process.env.chainRPC as string, // Polygon RPC URL
+        chainId: DEFAULT_CHAIN.id, // Polygon chain id
+    };
 
+    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
+     const provider = new ethers.providers.Web3Provider(m.rpcProvider as any); */
     // Utilities
-
+    //const provider = new ethers.providers.Web3Provider(m.rpcProvider as any);
     const [openMenu, setOpenMenu] = useState(false);
     // Connect wallet
 
@@ -242,16 +252,9 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                 className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                                                 disabled={isConnecting && connectorName ? true : false}
                                                                 onClick={async () => {
-                                                                    setIsConnecting(true);
+                                                                    /*setIsConnecting(true);
                                                                     setConnectorName("Magic");
-                                                                    const customNodeOptions = {
-                                                                        //https://rpc-mumbai.maticvigil.com
-                                                                        rpcUrl: process.env.chainRPC as string, // Polygon RPC URL
-                                                                        chainId: DEFAULT_CHAIN.id, // Polygon chain id
-                                                                    };
 
-                                                                    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
-                                                                    const provider = new ethers.providers.Web3Provider(m.rpcProvider);
                                                                     await m.auth.loginWithMagicLink({ email: "hello.angkin@gmail.com" });
                                                                     setMagicConnector(m);
                                                                     const { email, publicAddress } = await m.user.getMetadata();
@@ -260,7 +263,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                     setMagicSigner(signer);
                                                                     setLoggedIn(true);
                                                                     setIsConnecting(false);
-                                                                    close();
+                                                                    close(); */
                                                                 }}
                                                             >
                                                                 <div>
@@ -445,8 +448,8 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                     className="text-red-light-10 hover:underline dark:text-red-dark-10"
                                                                     onClick={() => {
                                                                         disconnect();
-                                                                        magicConnector.user.logout();
-                                                                        setLoggedIn(false);
+                                                                        // m.user.logout();
+                                                                        //setLoggedIn(false);
                                                                         toast.remove();
                                                                         toast.custom((t) => <ToastSuccess>Wallet disconnected</ToastSuccess>);
                                                                     }}

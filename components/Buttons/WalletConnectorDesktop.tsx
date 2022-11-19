@@ -33,6 +33,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
     const { chain } = useNetwork();
     const { switchNetwork } = useSwitchNetwork();
     const { loggedIn, setLoggedIn, magicConnector, setMagicConnector, setMagicAddress, magicAddress, setMagicSigner, magicProvider } = useLokaContext();
+
     //const [account, setAccount] = useState(address);
     const account = loggedIn ? magicAddress : address;
     console.log("magic logged in " + loggedIn + " acc " + account);
@@ -78,14 +79,14 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
             },
         ],
     });
-    /*
-    const customNodeOptions = {
-        rpcUrl: 'https://rpc-mumbai.maticvigil.com/"', // Polygon RPC URL
-        chainId: 80001, // Polygon chain id
+    /* const customNodeOptions = {
+        rpcUrl: process.env.chainRPC as string, // Polygon RPC URL
+        chainId: DEFAULT_CHAIN.id, // Polygon chain id
     };
 
     const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
-    const provider = new ethers.providers.Web3Provider(m.rpcProvider);*/
+
+    const provider = new ethers.providers.Web3Provider(m.rpcProvider as any); */
 
     return (
         <>
@@ -118,24 +119,19 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                 className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
-                                    setIsConnecting(true);
+                                    /*setIsConnecting(true);
                                     setConnectorName("MetaMask");
-                                    const customNodeOptions = {
-                                        rpcUrl: process.env.chainRPC as string, // Polygon RPC URL
-                                        chainId: DEFAULT_CHAIN.id, // Polygon chain id
-                                    };
 
-                                    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
-                                    const provider = new ethers.providers.Web3Provider(m.rpcProvider as ethers.provider);
                                     await m.auth.loginWithMagicLink({ email: inputEmail });
                                     setMagicConnector(m);
                                     const { email, publicAddress } = await m.user.getMetadata();
+
                                     setMagicAddress(publicAddress);
                                     var signer = provider.getSigner();
                                     setMagicSigner(signer);
                                     setLoggedIn(true);
                                     setIsConnecting(false);
-                                    setIsOpen(false);
+                                    setIsOpen(false);*/
                                 }}
                             >
                                 <div style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
@@ -325,8 +321,10 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                                     toast.remove();
                                                     toast.custom((t) => <ToastSuccess>Wallet disconnected</ToastSuccess>);
                                                     disconnect();
-                                                    magicConnector.user.logout();
-                                                    setLoggedIn(false);
+
+                                                    // m.user.logout();
+
+                                                    //setLoggedIn(false);
                                                     //setAccount(undefined);
                                                 }}
                                             >

@@ -8,15 +8,8 @@ import WalletConnectorDesktop from "./Buttons/WalletConnectorDesktop";
 
 // Import logos
 
-// Import utils
-import RisedleLinks from "../utils/links";
-
 // Import popper
 import { usePopper } from "react-popper";
-
-// Import headless ui
-import { Popover, Transition } from "@headlessui/react";
-import ButtonConnectWalletMobile from "./Buttons/ConnectWalletMobile";
 
 /**
  * NavigationProps is a React Component properties that passed to React Component Navigation
