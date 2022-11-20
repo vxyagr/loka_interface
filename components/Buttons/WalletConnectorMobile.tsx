@@ -4,18 +4,13 @@ import type { FunctionComponent } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { usePopper } from "react-popper";
-import createPersistedState from "use-persisted-state";
-import { chain, useNetwork, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useSwitchNetwork } from "wagmi";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { createMagic } from "../magicObject";
+import { useNetwork, useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useSwitchNetwork } from "wagmi";
+import { createMagic } from "../LokaWallet";
 
 import { Sling as Hamburger } from "hamburger-react";
-import { Magic, RPCError, RPCErrorCode } from "magic-sdk";
 import { ethers } from "ethers";
 
 // Import components
-import Logo from "../Logo";
-import ButtonLaunchBasic from "./LaunchBasic";
 import BurgerMenu from "../BurgerMenu";
 // Toasts
 import ToastError from "../Toasts/Error";
@@ -41,14 +36,9 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
     const { chain } = useNetwork();
     const { switchNetwork } = useSwitchNetwork();
     const { loggedIn, setLoggedIn, magicConnector, setMagicConnector, setMagicAddress, magicAddress, setMagicSigner, magicProvider } = useLokaContext();
-    //const [account, setAccount] = useState(address);
     const account = loggedIn ? magicAddress : address;
-    //console.log("magic logged in " + loggedIn + " acc " + account);
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
     const { disconnect } = useDisconnect();
-
-    // Local states
-    const [isOpen, setIsOpen] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
     const [connectorName, setConnectorName] = useState<string | undefined>(undefined);
 
@@ -304,7 +294,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                 className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-blue-light-5 bg-blue-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-blue-light-3 active:scale-95 dark:border-blue-dark-5 dark:bg-blue-dark-2 dark:hover:bg-blue-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                                                 disabled={isConnecting && connectorName ? true : false}
                                                                 onClick={async () => {
-                                                                    await connect({ connector: connectors[1] });
+                                                                    await connect({ connector: connectors[2] });
                                                                     close();
                                                                 }}
                                                             >
@@ -326,7 +316,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                 className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-blue-light-5 bg-blue-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-blue-light-3 active:scale-95 dark:border-blue-dark-5 dark:bg-blue-dark-2 dark:hover:bg-blue-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                                                 disabled={isConnecting && connectorName ? true : false}
                                                                 onClick={async () => {
-                                                                    await connect({ connector: connectors[2] });
+                                                                    await connect({ connector: connectors[1] });
                                                                     close();
                                                                 }}
                                                             >

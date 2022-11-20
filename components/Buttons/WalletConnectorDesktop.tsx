@@ -11,7 +11,7 @@ import ToastSuccess from "../Toasts/Success";
 import { getEtherscanAddressURL, formatAddress, DEFAULT_CHAIN, useLokaContext } from "../LokaWallet";
 import { Magic, RPCError, RPCErrorCode } from "magic-sdk";
 import { ethers } from "ethers";
-import { createMagic } from "../magicObject";
+import { createMagic } from "../LokaWallet";
 // States
 import ButtonClose from "./Close";
 import { switchNetwork } from "@wagmi/core";
@@ -33,21 +33,10 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
     const { chain } = useNetwork();
     const { switchNetwork } = useSwitchNetwork();
     const { loggedIn, setLoggedIn, magicConnector, setMagicConnector, setMagicAddress, magicAddress, setMagicSigner, magicProvider } = useLokaContext();
-
-    //const [account, setAccount] = useState(address);
     const account = loggedIn ? magicAddress : address;
-    //console.log("magic logged in : " + loggedIn + " acc " + account);
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
     const { disconnect } = useDisconnect();
 
-    /*const customNodeOptions = {
-        rpcUrl: 'https://rpc-mumbai.maticvigil.com/"', // Polygon RPC URL
-        chainId: 80001, // Polygon chain id
-    };
-
-    const m = new Magic(process.env.MAGIC_KEY as string, { network: customNodeOptions });
-    const provider = new ethers.providers.Web3Provider(m.rpcProvider); */
-    // Local states
     const [isOpen, setIsOpen] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
     const [connectorName, setConnectorName] = useState<string | undefined>(undefined);
@@ -83,7 +72,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
         const m = await createMagic();
         return m;
     };
-    console.log("point a");
+
     return (
         <>
             <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 z-20 overflow-y-auto">

@@ -3,7 +3,6 @@ import React, { FunctionComponent, ReactNode, createContext, useContext } from "
 import createPersistedState from "use-persisted-state";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { createMagic } from "./magicObject";
 
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
@@ -85,4 +84,15 @@ export const LokaProvider = ({ children }: any) => {
     const [magicProvider, setMagicProvider] = useState(undefined);
     const [magicSigner, setMagicSigner] = useState(undefined);
     return <LokaContext.Provider value={{ magicConnector, loggedIn, magicAddress, magicSigner, magicProvider, setMagicConnector, setLoggedIn, setMagicAddress, setMagicProvider, setMagicSigner }}>{children}</LokaContext.Provider>;
+};
+
+export const createMagic = async () => {
+    const customNodeOptions = {
+        rpcUrl: process.env.chainRPC as string, // Polygon RPC URL
+        chainId: DEFAULT_CHAIN.id, // Polygon chain id
+    };
+
+    return new Magic(process.env.MAGIC_KEY as string, {
+        network: customNodeOptions,
+    });
 };

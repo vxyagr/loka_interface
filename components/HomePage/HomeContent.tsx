@@ -10,7 +10,7 @@ type HeroProps = {};
 
 /**
  * Hero is just yet another react component
- * <!-- <img src="dragonkin_final.jfif" className="absolute top-0 left-0 hidden w-full lg:flex" /> -->
+ * <!-- <img src="dragonkin_final.jfif" className="absolute top-0 left-0 hidden w-full lg:flex" />  -->
  * @link https://fettblog.eu/typescript-react/components/#functional-components
  */
 const Hero: FunctionComponent<HeroProps> = ({}) => {
@@ -32,7 +32,7 @@ const Hero: FunctionComponent<HeroProps> = ({}) => {
                     </div>
                 </div>
             </div>
-            <div className="relative h-full w-full justify-center overflow-hidden bg-white text-green-dark-10">
+            <div className="relative h-full w-full justify-center overflow-hidden bg-white text-green-dark-10" style={{ background: "#E4FDF8" }}>
                 <div className="z-5 relative m-auto flex  max-w-screen-md flex-col items-center gap-8 px-4 py-8 text-center align-top ">
                     <div className="min-w-[20px] md:flex lg:flex ">
                         <div className="m-10 min-w-[400px] px-10 py-5 " style={{ backgroundColor: "#1C4543", border: "1px solid #359688", borderRadius: "20px", color: "white" }}>

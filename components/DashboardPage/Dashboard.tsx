@@ -5,6 +5,7 @@ import { chain, useNetwork, useAccount, useContract, useConnect, useSigner, useD
 import { DEFAULT_CHAIN, useLokaContext } from "../LokaWallet";
 import { ethers, providers } from "ethers";
 import React, { useState, useEffect } from "react";
+import { USDCAbi, contractAbi } from "../Contracts";
 import Link from "next/link";
 import { Magic } from "magic-sdk";
 
@@ -24,10 +25,6 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     const showConnectWallet = account || loggedIn ? false : true;
     const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
 
-    var contractAbi = require("../../abis/LokaNFTABI.json");
-    var USDCAbi = require("../../abis/USDCPolygonABI.json");
-    if (!showConnectWallet) {
-    }
     const nftContract = new ethers.Contract(process.env.lokaNFTContract as string, contractAbi, contractSigner as ethers.Signer);
     const usdcContract = new ethers.Contract(process.env.USDCContract as string, USDCAbi, contractSigner as ethers.Signer);
 
@@ -39,15 +36,21 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     };
 
     const getPrice = async () => {
-        //console.log("contract addr " + process.env.lokaNFTContract);
-        var price = await nftContract.getPrice();
-        setNftPrice(price);
+        try {
+            var price = await nftContract.getPrice();
+            setNftPrice(price);
+            return price;
+        } catch (e) {
+            setNftPrice(0);
+        }
     };
+
     const [owned, setOwned] = useState(0);
     const getOwnedLoka = async () => {
-        var owned = await nftContract.getLokaOwnedBy(account);
-        setOwned(owned.length);
-        // console.log("contract addr " + process.env.lokaNFTContract);
+        try {
+            var owned = await nftContract?.getLokaOwnedBy(account);
+            setOwned(owned.length);
+        } catch (e) {}
     };
 
     const mintLoka = async () => {
@@ -61,41 +64,37 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     };
 
     const adjustAmount = async (amountNumber: number) => {
-        console.log("ajudst");
-        await getPrice();
         if (amountNumber >= 0) {
             setAmount(amountNumber);
 
-            var total_ = amountNumber * nftPrice;
+            var price = await getPrice();
+            var total_ = amountNumber * price;
             setTotalPrice(total_);
-            // console.log(totalPrice.toString());
         }
     };
 
     useEffect(() => {
-        //console.log("contract addr " + process.env.lokaNFTContract);
-        getPrice();
-        getOwnedLoka();
-        if (account && signer) {
-            // createNFTContract();
-            // setContract(contract);
+        if (nftContract.signer) {
+            getOwnedLoka();
+            getPrice();
         }
-    }, [account]);
+    }, [contractSigner, nftContract.signer]);
 
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
             <div className="relative h-full min-h-[500px] w-full justify-center overflow-hidden bg-white text-green-dark-10">
-                <div className="relative z-10  flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <div className="relative z-10 flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <div className="px-4 py-6 text-center sm:basis-1/4 " style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div className="relative z-10  flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div className="relative z-10 flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <div className="px-4 py-6 text-center sm:basis-1/4 " style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
-                                <div className="flex w-full text-center align-middle" style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <div className="flex w-full text-center align-middle" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <div
-                                        style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
+                                        style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
                                         className="h-[80px] w-[100px]"
-                                        onClick={() => {
+                                        onClick={async () => {
                                             var num = amount - 1;
-                                            adjustAmount(num);
+
+                                            await adjustAmount(num);
                                         }}
                                     >
                                         <button className="px-4">
@@ -108,18 +107,20 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                                             placeholder="Type something..."
                                             id="myInput"
                                             value={amount}
-                                            onChange={(e) => {
+                                            onChange={async (e) => {
+                                                //await getPrice();
                                                 adjustAmount(parseInt(e.currentTarget.value));
                                             }}
                                             style={{ width: "130px", padding: "5px", textAlign: "center" }}
                                         ></input>
                                     </div>
-                                    <div style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }} className="h-[80px] w-[100px]">
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className="h-[80px] w-[100px]">
                                         <button
                                             className="px-4"
-                                            onClick={() => {
+                                            onClick={async () => {
                                                 var num = amount + 1;
-                                                adjustAmount(num);
+                                                //await getPrice();
+                                                await adjustAmount(num);
                                             }}
                                         >
                                             <img src="/plusIcon.svg" alt="+" width="30px" />
@@ -135,7 +136,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                                         <a className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base">Mint</a>
                                     </button>
                                 </Link>
-                                <div>Total : {totalPrice / 1000000} USDC</div>
+                                <div>Total : {Intl.NumberFormat().format(totalPrice / 1000000)} USDC</div>
                                 <div>
                                     <h2 className="med-hero-text">
                                         <span style={{ color: "#256428", fontSize: "25px", display: "flex", justifyContent: "center", alignItems: "center" }}> You have {owned} Lokas </span>
