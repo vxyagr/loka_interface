@@ -145,10 +145,10 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                             </p>
                             <p className="text-sm font-bold leading-6 text-gray-light-12 dark:text-gray-dark-12"></p>
                         </div>
-                        <div className="mt-6 h-full grid-cols-2 gap-x-4 gap-y-1 px-4 text-center sm:basis-2/4 sm:pl-8 md:flex lg:flex" style={{ color: "#266931", justifyContent: "center", alignItems: "center" }}></div>
+
                         <hr style={{ width: "800px" }} />
                         <div className="relative h-full w-full justify-center overflow-hidden bg-white text-green-dark-10">
-                            <div className="z-5 relative m-auto flex  max-w-screen-md flex-col items-center gap-8 px-4 py-8 text-center align-top ">
+                            <div className="z-5 relative m-auto flex  max-w-screen-md flex-col items-center gap-8 px-4 text-center align-top ">
                                 <div className="min-w-[20px] md:flex lg:flex "></div>
                             </div>
                         </div>

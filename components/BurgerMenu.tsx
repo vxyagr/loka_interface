@@ -36,7 +36,7 @@ const BurgerMenu = ({ open }: { open: any }) => {
     return (
         //<div className='{"background":"linear-gradient(89.93deg, #0A2F0C 27.17%, #295771 76.4%, #0A2F0C 99.83%)"} sticky  top-0 z-40 flex flex-row items-center justify-between bg-green-300 p-4 backdrop-blur-lg dark:bg-green-700 '>
         <>
-            <div className="pointer z-100 will-change-opacity fixed absolute left-0 top-16 ml-0 flex h-screen w-screen flex-col items-start overflow-scroll bg-white bg-opacity-90 px-6 pt-20 backdrop-blur-3xl" data-projection-id={12} style={{ opacity: 1 }}>
+            <div className="z-100 will-change-opacity fixed absolute left-0 top-[80px] ml-0 flex h-screen w-screen flex-col items-start overflow-hidden bg-white bg-opacity-90 px-6 pt-20 backdrop-blur-xl" data-projection-id={12} style={{ opacity: 1 }}>
                 <ul className="font-900 w-full text-xl uppercase">
                     <li className=" border-b border-black border-opacity-10">
                         <Link href="/">

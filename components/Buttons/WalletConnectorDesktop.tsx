@@ -45,7 +45,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
     // UI States
     const showConnectWallet = account ? false : true;
     const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
-    const showAccountData = true; //!showConnectWallet && !showSwitchToDefaultNetwork;
+    const showAccountData = !showConnectWallet && !showSwitchToDefaultNetwork;
 
     //const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
     // Popover
@@ -77,9 +77,9 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
         <>
             <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 z-20 overflow-y-auto">
                 <div className="flex min-h-screen items-center justify-center">
-                    <Dialog.Overlay className="fixed inset-0 bg-gray-dark-1/60 backdrop-blur dark:bg-black/60" />
+                    <Dialog.Overlay className="fixed inset-0 bg-gray-dark-1/60 backdrop-blur-lg dark:bg-gray-dark-1/60" />
 
-                    <div className="relative mx-auto flex w-[342px] max-w-sm flex-col rounded-[24px] border border-gray-light-3 bg-gray-light-1 dark:border-gray-dark-3 dark:bg-gray-dark-1">
+                    <div className="relative mx-auto flex w-[342px] max-w-sm flex-col rounded-[24px] border  border-green-dark-8 bg-green-dark-5">
                         <Dialog.Title className="m-0 flex flex-row items-center justify-between border-b border-dashed border-gray-light-3 px-4 py-4 dark:border-gray-dark-3">
                             <span className="grow pl-[40px] text-center text-base font-bold leading-none text-gray-light-12 dark:text-gray-dark-12">{isConnecting ? "Connecting..." : "Connect Wallet"}</span>
                             <ButtonClose
@@ -101,7 +101,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                 style={{ width: "300px", padding: "5px", textAlign: "center" }}
                             ></input>
                             <button
-                                className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
+                                className={`m-0 flex w-full flex-row items-center justify-between rounded-[12px] border border-[#2A7243]  bg-[#256428] py-[11px] px-[12px] text-left transition duration-300  ease-in-out  hover:bg-[#3CADB5]  active:scale-95 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
                                     setIsConnecting(true);
@@ -120,8 +120,8 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                     setIsOpen(false);
                                 }}
                             >
-                                <div style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
-                                    <span className="m-3 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12" style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                                <div className="w-full" style={{ width: "full", display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                                    <span className="m-3 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12" style={{ width: "full", display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
                                         Continue with your email
                                     </span>
                                 </div>

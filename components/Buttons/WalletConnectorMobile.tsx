@@ -45,7 +45,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
     // UI States
     const showConnectWallet = account ? false : true;
     const showSwitchToDefaultNetwork = !showConnectWallet && chain?.id != DEFAULT_CHAIN.id && !loggedIn ? true : false;
-    const showAccountData = true; //!showConnectWallet && !showSwitchToDefaultNetwork;
+    const showAccountData = !showConnectWallet && !showSwitchToDefaultNetwork;
 
     // Popover
     let [referenceElement1, setReferenceElement1] = useState<HTMLButtonElement | null>();
@@ -174,7 +174,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                         );
                                     }}
                                 </Popover.Panel>
-                                <Popover.Overlay className={`${open ? "fixed inset-0 bg-gray-dark-1/60 opacity-100 backdrop-blur dark:bg-black/60" : "opacity-0"} z-[-1]`} />
+                                <Popover.Overlay className={`${open ? "fixed inset-0 bg-gray-dark-1/60 opacity-100 backdrop-blur-lg dark:bg-black/60" : "opacity-0"} z-[-1]`} />
                             </>
                         );
                     }}
@@ -463,7 +463,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                         </Popover.Panel>
                                     </>
                                 )}
-                                <Popover.Overlay className={`${open ? "fixed inset-0 bg-gray-dark-1/60 opacity-100 backdrop-blur dark:bg-black/60" : "opacity-0"} -z-[1]`} />
+                                <Popover.Overlay className={`${open ? "fixed inset-0 bg-gray-dark-1/60 opacity-100 backdrop-blur-lg dark:bg-black/60" : "opacity-0"} -z-[1]`} />
                             </>
                         );
                     }}
