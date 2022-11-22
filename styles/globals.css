@@ -14,7 +14,11 @@
     }
 
     .med-hero-text {
-        @apply m-0  text-center text-4xl font-bold tracking-tight text-gray-light-12 dark:text-gray-dark-12 sm:text-4xl md:text-6xl;
+        @apply m-0  text-left text-4xl font-bold tracking-tight text-gray-light-12 dark:text-gray-dark-12 sm:text-4xl  md:text-6xl lg:text-center;
+    }
+
+    .connect-hero-text {
+        @apply m-0  text-left text-4xl font-bold tracking-tight  sm:text-4xl  md:text-6xl lg:text-center;
     }
 
     .sm-hero-text {

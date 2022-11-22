@@ -77,8 +77,8 @@ const Hero: FunctionComponent<HeroProps> = ({}) => {
                 <div className="relative h-full w-full justify-center overflow-hidden bg-white text-green-dark-10" style={{ background: "#E4FDF8" }}>
                     <div className="z-5 relative m-auto flex  max-w-screen-md flex-col items-center px-4 py-0 text-center align-top ">
                         <div className="min-w-[20px] md:flex lg:flex ">
-                            <div className="m-10 min-w-[400px] px-10 py-2 " style={{ backgroundColor: "#1C4543", border: "1px solid #359688", borderRadius: "20px", color: "white" }}>
-                                <h1 className="med-hero-text">Easy</h1>
+                            <div className="m-10 min-w-[400px] px-10 py-5 text-left lg:text-center " style={{ backgroundColor: "#1C4543", border: "1px solid #359688", borderRadius: "20px", color: "white" }}>
+                                <h1 className=" med-hero-text p-5">Easy</h1>
                                 <div className="p-5">
                                     <span style={{ color: "white", fontSize: "18px" }}>Skip the tedious effort of</span>
                                     <br />
@@ -99,16 +99,16 @@ const Hero: FunctionComponent<HeroProps> = ({}) => {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="m-10 min-w-[400px] px-10 py-5" style={{ backgroundColor: "#256428", border: "1px solid #359688", borderRadius: "20px", color: "white" }}>
-                                <h1 className="med-hero-text">Green</h1>
+                            <div className="m-10 min-w-[400px] px-10 py-5 text-left lg:text-center" style={{ backgroundColor: "#256428", border: "1px solid #359688", borderRadius: "20px", color: "white" }}>
+                                <h1 className="med-hero-text p-5 text-left lg:text-center">Green</h1>
                                 <div className="p-5">
                                     Our mining stations are strategically placed in an area with abundant amount of renewable energy and resources. <br />
                                     <br />
                                     The future of decentralization is environment friendly!
                                 </div>
                             </div>
-                            <div className="m-10 min-w-[400px] px-10 py-5" style={{ backgroundColor: "#359688", border: "1px solid #359688", borderRadius: "20px", color: "white" }}>
-                                <h1 className="med-hero-text">Reliable</h1>
+                            <div className="m-10 min-w-[400px] px-10 py-5 text-left lg:text-center" style={{ backgroundColor: "#359688", border: "1px solid #359688", borderRadius: "20px", color: "white" }}>
+                                <h1 className="med-hero-text p-5 text-left lg:text-center">Reliable</h1>
                                 <div className="p-5">Our team consisted of experienced and reputable crypto miners, engineers, and seasoned business founders.</div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@ const Hero: FunctionComponent<HeroProps> = ({}) => {
                 </div>
             </div>
 
-            <div className="relative h-[120px] w-full justify-center overflow-hidden bg-white text-green-dark-10"></div>
+            <div className="relative h-[120px] w-full justify-center overflow-hidden bg-[#256428] pt-[30px] text-center text-white ">© Loka Labs @2022</div>
         </div>
     );
 };

@@ -52,14 +52,25 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
             setOwned(owned.length);
         } catch (e) {}
     };
-
+    const checkAllowance = async () => {
+        const allowance = await usdcContract.allowance(account, process.env.lokaNFTContract);
+        return parseInt(allowance);
+    };
     const mintLoka = async () => {
         if (totalPrice > 0) {
             //approve USDC transfer
-            const approveResult = await usdcContract.approve(process.env.lokaNFTContract, totalPrice);
-            //await result.wait();
-            const result = await nftContract.mintLoka(amount);
-            // await result.wait();
+            const allowance = await checkAllowance();
+            try {
+                if (allowance < totalPrice) {
+                    const approveResult = await usdcContract.approve(process.env.lokaNFTContract, totalPrice - allowance);
+                    var res = await approveResult.wait();
+                }
+
+                const result = await nftContract.mintLoka(amount);
+                // await result.wait();
+            } catch (e) {
+                console.log("transaction error " + e.message);
+            }
         }
     };
 
@@ -82,7 +93,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
 
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
-            <div className="relative h-full min-h-[500px] w-full justify-center overflow-hidden bg-white text-green-dark-10">
+            <div className="relative h-screen w-full justify-center overflow-hidden bg-white text-green-dark-10">
                 <div className="relative z-10  flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <div className="relative z-10 flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <div className="px-4 py-6 text-center sm:basis-1/4 " style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -156,24 +167,27 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
 
                     <div className="md:flex lg:flex "></div>
                 </div>
+                <div className="fixed bottom-0 h-[120px] w-full justify-center overflow-hidden bg-[#256428] pt-[30px] text-center text-white ">© Loka Labs @2022</div>
             </div>
         );
     } else if (showSwitchToDefaultNetwork) {
         return (
-            <div className="relative h-full w-full justify-center overflow-hidden bg-white text-green-dark-10">
+            <div className="relative  h-screen w-full justify-center overflow-hidden bg-white text-green-dark-10">
                 <div className="lg:py-30 relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[60px] px-4 text-center align-middle">
-                    <h2 className="med-hero-text">
+                    <h2 className="connect-hero-text text-green-dark-1">
                         Please Switch Network to <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none sm:py-20">{DEFAULT_CHAIN.name}</span>
                     </h2>
                 </div>
+                <div className="fixed bottom-0 h-[120px] w-full justify-center overflow-hidden bg-[#256428] pt-[30px] text-center text-white ">© Loka Labs @2022</div>
             </div>
         );
     } else {
         return (
             <div className="relative h-screen w-full justify-center overflow-hidden bg-white text-green-dark-10">
                 <div className="lg:py-30 relative z-10 m-auto flex max-w-screen-md flex-col items-center gap-8 py-[60px] px-4 text-center align-middle">
-                    <h2 className="med-hero-text">Please Connect Your Wallet</h2>
+                    <h2 className="connect-hero-text text-green-dark-1">Please Connect Your Wallet</h2>
                 </div>
+                <div className="fixed bottom-0 h-[120px] w-full justify-center overflow-hidden bg-[#256428] pt-[30px] text-center text-white ">© Loka Labs @2022</div>
             </div>
         );
     }

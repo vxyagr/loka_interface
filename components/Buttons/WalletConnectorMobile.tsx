@@ -233,7 +233,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                 ></input>
                                                             </div>
                                                             <button
-                                                                className={`m-0 flex flex-row items-center justify-between rounded-[12px] border border-orange-light-5 bg-orange-light-2 py-[11px] px-[12px] text-left transition duration-300 ease-in-out hover:bg-orange-light-3 active:scale-95 dark:border-orange-dark-5 dark:bg-orange-dark-2 dark:hover:bg-orange-dark-3 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
+                                                                className={`m-0 flex flex-row items-center justify-between rounded-[12px] border  border-green-dark-8 bg-green-dark-5 py-[11px] px-[12px] text-left transition duration-300 ease-in-out  hover:bg-[#3CADB5]  active:scale-95 ${isConnecting && connectorName ? "cursor-wait" : "cursor-pointer"}`}
                                                                 disabled={isConnecting && connectorName ? true : false}
                                                                 onClick={async () => {
                                                                     setIsConnecting(true);
@@ -254,7 +254,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                     close();
                                                                 }}
                                                             >
-                                                                <div style={{ display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                                                                <div className="w-full" style={{ width: "full", display: "flex", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
                                                                     <span className="m-0 font-inter text-sm font-semibold leading-none text-gray-light-12 dark:text-gray-dark-12">Continue with your email</span>
                                                                 </div>
                                                                 {isConnecting && connectorName === "Magic" && (
