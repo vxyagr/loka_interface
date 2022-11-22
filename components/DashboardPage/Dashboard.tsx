@@ -94,8 +94,8 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
             <div className="relative h-screen w-full justify-center overflow-hidden bg-white text-green-dark-10">
-                <div className="relative z-10  flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <div className="relative z-10 flex w-screen flex-col items-center gap-8 py-[20px] px-4 text-center align-middle lg:py-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div className="relative z-10  flex w-screen flex-col items-center gap-8  px-4 pb-0 text-center align-middle lg:pt-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div className="relative z-10 flex w-screen flex-col items-center gap-8  px-4 pb-0 text-center align-middle lg:pt-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <div className="px-4 py-6 text-center sm:basis-1/4 " style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
                                 <div className="flex w-full text-center align-middle" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -158,12 +158,21 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                         </div>
 
                         <hr style={{ width: "800px" }} />
-                        <div className="relative h-full w-full justify-center overflow-hidden bg-white text-green-dark-10">
-                            <div className="z-5 relative m-auto flex  max-w-screen-md flex-col items-center gap-8 px-4 text-center align-top ">
-                                <div className="min-w-[20px] md:flex lg:flex "></div>
-                            </div>
+                    </div>
+
+                    <div className="md:flex lg:flex "></div>
+                </div>
+                <div className="relative z-10  flex w-screen flex-col items-center gap-8  px-4 text-center align-middle lg:py-10" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div className="flex w-full text-center align-middle" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <div className="mint_number h-[80px] w-[100px]" style={{ color: "#256428", fontSize: "36px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            0.00
                         </div>
                     </div>
+                    <Link href="#">
+                        <button onClick={() => {}}>
+                            <a className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base">Claim Bitcoin</a>
+                        </button>
+                    </Link>
 
                     <div className="md:flex lg:flex "></div>
                 </div>
