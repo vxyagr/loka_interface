@@ -68,8 +68,8 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
 
                 const result = await nftContract.mintLoka(amount);
                 // await result.wait();
-            } catch (e) {
-                console.log("transaction error " + e.message);
+            } catch (error) {
+                //console.log("transaction error " + errpr);
             }
         }
     };
