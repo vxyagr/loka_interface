@@ -114,7 +114,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
 
     return (
         <>
-            <div className="fixed bottom-0 flex h-[64px] w-full flex-row space-x-2 p-4">
+            <div className="fixed bottom-0 flex h-[78px] w-full flex-row space-x-2 p-4">
                 {/* Network switcher popover */}
                 <Popover id="popover-1">
                     {({ open }) => {
@@ -226,6 +226,7 @@ const ButtonConnectWalletMobile: FunctionComponent<ButtonConnectWalletMobileProp
                                                                     type="email"
                                                                     placeholder="your email@domain"
                                                                     id="myInput"
+                                                                    name="email"
                                                                     onChange={(e) => {
                                                                         setInputEmail(e.currentTarget.value);
                                                                     }}

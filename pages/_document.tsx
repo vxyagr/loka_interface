@@ -15,7 +15,7 @@ class LokaDocument extends Document {
                     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
                     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet" />
                 </Head>
-                <body className="h-full " style={{ background: "#0A2F0C" }}>
+                <body className="h-full " style={{ background: "#256428" }}>
                     <Main />
                     <NextScript />
                 </body>

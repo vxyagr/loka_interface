@@ -27,7 +27,7 @@ const DashboardPage: FunctionComponent<DashboardProps> = ({}) => {
 
     const bgCol = { background: "radial-gradient(100.64% 150.78% at 50% -7.3%, #28556C 0%, rgba(10, 47, 12, 0.95) 41.22%, #0A2F0C 63.49%)" };
     return (
-        <div className={`${bgCol} h-screen w-full font-inter  lg:h-full`} style={{ background: "linear-gradient(89.93deg, #256428 11.39%, #3CADB5 86.52%)" }}>
+        <div className={`${bgCol} h-screen w-full font-inter  lg:h-full`} style={{ background: "#EEF3DA" }}>
             <Head>
                 {/* <!-- HTML Meta Tags --> */}
                 <title>Loka | Crypto Mining with Renewable Energy </title>

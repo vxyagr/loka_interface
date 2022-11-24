@@ -95,6 +95,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                 type="email"
                                 placeholder="your email@domain"
                                 id="myInput"
+                                name="email"
                                 onChange={(e) => {
                                     setInputEmail(e.currentTarget.value);
                                 }}

@@ -57,12 +57,12 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
     return (
         //<div className='{"background":"linear-gradient(89.93deg, #0A2F0C 27.17%, #295771 76.4%, #0A2F0C 99.83%)"} sticky  top-0 z-40 flex flex-row items-center justify-between bg-green-300 p-4 backdrop-blur-lg dark:bg-green-700 '>
         <>
-            <div className={` lg sticky top-0 z-40 flex h-[80px] flex-row items-center justify-between py-1 backdrop-blur-lg `} style={{ background: "linear-gradient(89.93deg, #256428 11.39%, #3CADB5 86.52%)", display: "flex", alignItems: "center" }}>
-                <div className="flex h-16 cursor-pointer lg:hidden">
+            <div className={` lg sticky top-0 z-40 flex h-[80px] flex-row items-center justify-between py-1 backdrop-blur-lg `} style={{ verticalAlign: "top", background: "linear-gradient(89.93deg, #256428 11.39%, #3CADB5 86.52%)", display: "flex", alignItems: "center" }}>
+                <div className="flex h-16 w-full cursor-pointer lg:hidden">
                     <ButtonConnectWalletMobile />
                 </div>
 
-                <div className="flex  cursor-pointer p-4 md:w-[162.8px] lg:flex">
+                <div className="flex hidden  cursor-pointer p-4 md:w-[162.8px] lg:flex">
                     <Link href="/">
                         <p className="hidden items-center lg:flex ">
                             <Logo />
