@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-if (global._bitcore) delete global._bitcore;
+//const a: any = global._bitcore;
+//if (a) delete global._bitcore;
 import bitcore from "bitcore-lib";
 import { ethers } from "ethers";
 import { USDCAbi } from "../../components/Contracts";
