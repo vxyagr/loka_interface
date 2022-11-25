@@ -110,7 +110,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
         window.localStorage.setItem("showConnectWallet", JSON.stringify(account || loggedIn ? false : true));
     }, [contractSigner, nftContract.signer, account, showConnectWallet, chain, lokaChain]);
     //console.log("servercall | show connect wallet :" + showConnectWallet + " | chain :  " + (lokaChain != DEFAULT_CHAIN.id) + " " + lokaChain);
-    const showSwitchToDefaultNetwork = !showConnectWallet && lokaChain != DEFAULT_CHAIN.id ? true : false;
+    const showSwitchToDefaultNetwork = !showConnectWallet && lokaChain != DEFAULT_CHAIN.id && !loggedIn ? true : false;
 
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         return (
@@ -213,7 +213,6 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
             <div className="relative  h-full w-full justify-center overflow-hidden bg-white text-green-dark-10">
                 <div className="lg:py-30 relative z-10 m-auto flex min-h-[500px] max-w-screen-md flex-col items-center gap-8 py-[60px] px-4 text-center align-middle">
                     <h2 className="connect-hero-text text-[#256428]">
-                        {showConnectWallet} {lokaChain}
                         Please Switch Network to <span className="gradient move-gradient bg-[length:250%_250%] bg-clip-text text-transparent transition-none sm:py-20">{DEFAULT_CHAIN.name}</span>
                     </h2>
                 </div>
