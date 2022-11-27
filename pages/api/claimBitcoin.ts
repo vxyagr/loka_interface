@@ -70,7 +70,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         .to(btcAddress, transactionAmount)
                         .fee(minerFee)
                         .change(hotWalletAddress)
-                        .sign(process.env.HOTWALLET_PRIVATE_KEY as string);
+                        .sign(process.env.HOTWALLET_KEY as string);
 
                     // broadcast the transaction to the blockchain
                     insight.broadcast(bitcore_transaction, function (error: any, body: any) {
