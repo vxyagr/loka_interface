@@ -167,7 +167,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
                                     setIsConnecting(true);
-                                    setConnectorName("MetaMask");
+                                    setConnectorName("Wallet Connect");
                                     await connect({ connector: connectors[1] });
                                     setIsConnecting(false);
                                     setIsOpen(false);
@@ -192,7 +192,7 @@ const WalletConnectorDesktop: FunctionComponent<WalletConnectorDesktopProps> = (
                                 disabled={isConnecting && connectorName ? true : false}
                                 onClick={async () => {
                                     setIsConnecting(true);
-                                    setConnectorName("MetaMask");
+                                    setConnectorName("Coinbase");
                                     await connect({ connector: connectors[2] });
                                     setIsConnecting(false);
                                     setIsOpen(false);

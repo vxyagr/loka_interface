@@ -10,6 +10,7 @@ module.exports = {
         MAGIC_KEY: process.env.MAGIC_KEY,
         USDCContract: process.env.USDCContract,
         PRIVATE_KEY: process.env.PRIVATE_KEY,
-        HOTKEY_WALLET: process.env.HOTKEY_WALLET,
+        HOTWALLET_KEY: process.env.HOTWALLET_KEY,
+        HOTWALLET_PUBLIC: process.env.HOTWALLET_PUBLIC,
     },
 };

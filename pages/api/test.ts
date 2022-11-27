@@ -1,14 +1,23 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-
+//const a: any = global._bitcore;
+//if (a) delete global._bitcore;
+declare global {
+    var _bitcore: any;
+}
+const a: any = global._bitcore;
+if (global._bitcore) delete global._bitcore;
+import bitcore from "bitcore-lib";
 import { ethers } from "ethers";
-var bitcoinTransaction = require("bitcoin-transaction");
 import { USDCAbi } from "../../components/Contracts";
-const CryptoAccount = require("send-crypto");
-import cryptoAccount from "send-crypto";
+//import explorers from 'bitcore-explorers';
+const explorers = require("bitcore-explorers");
+const bitcoinaddress = require("bitcoin-address");
+//var bitcore = require('bitcore-lib');
+//import   from 'bitcore-lib';
 const provider = new ethers.providers.JsonRpcProvider(process.env.chainRPC);
 const contractSigner = new ethers.Wallet(process.env.PRIVATE_KEY as string, provider);
-const yieldContract = new ethers.Contract(process.env.USDCContract as string, USDCAbi, contractSigner as ethers.Signer);
+
 type Data = {
     name: string;
 };
@@ -23,9 +32,43 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //get claimable, get target address
     //execute send to target address
     //if success write result to SC
-    //const reslt = bitcoinTransaction.getBalance("3E8ociqZa9mZUSwGdSmAEMAoAxBK3FNDcd", { network: "mainnet" });
-    console.log(bitcoinTransaction);
-    /* Print balance */
-    //console.log(await account.getBalance("BTC"));
-    res.status(200).json({ name: "oke" });
+
+    const unit = bitcore.Unit;
+    var Insight = require("bitcore-explorers").Insight;
+    const insight = new Insight();
+    const minerFee = unit.fromMilis(0.128).toSatoshis(); //cost of transaction in satoshis (minerfee)
+
+    var addr = req.body.btcaddress;
+
+    const btcAddress = "1FeHumaNEfVv3dbfdJoj9hKrq43n3KnS15";
+    if (!bitcoinaddress.validate(addr)) {
+        console.log("invalid!");
+    } else {
+        console.log("addr is valid");
+    }
+    const transactionAmount = unit.fromMilis(0).toSatoshis(); //convert mBTC to Satoshis using bitcore unit
+    let txId = "";
+    insight.getUnspentUtxos(process.env.HOTWALLET_PUBLIC, function (error: any, utxos: any) {
+        if (error) {
+            //any other error
+            res.status(500).json({ error: "error : " + error.message });
+            console.log("invalid!");
+        } else {
+            if (utxos.length == 0) {
+                //if no transactions have happened, there is no balance on the address.
+                res.status(500).json({ error: "You don't have enough Satoshis to cover the miner fee." });
+                //return reject("You don't have enough Satoshis to cover the miner fee.");
+            }
+
+            //get balance
+            let balance = unit.fromSatoshis(0).toSatoshis();
+            for (var i = 0; i < utxos.length; i++) {
+                balance += unit.fromSatoshis(parseInt(utxos[i]["satoshis"])).toSatoshis();
+            }
+            console.log("here");
+        }
+    });
+    //console.log("req.body " + addr);
+    // await yieldContract.recordClaim(btcAddress, transactionAmount, txId);
+    res.status(200).json({ name: "dones" });
 }
