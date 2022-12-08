@@ -263,7 +263,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                     <div className="min-h-[200px]" style={{ color: "#256428", fontSize: "18px", display: "flex", justifyContent: "center", verticalAlign: "top" }}>
                         <div className="h-[100%] pb-[100px]">
                             {claimHistory.map((element: any) => (
-                                <div className="flex w-full">
+                                <div className="flex w-full" key={element.id}>
                                     <div className="w-[400px]">{new Date(parseInt(element[0].toString()) * 1000).toString()}</div>
                                     <div>{(element[2] / 1000000000000000000).toString()} LBTC</div>
                                     <div></div>
