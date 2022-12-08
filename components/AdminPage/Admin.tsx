@@ -153,7 +153,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                 <div className="min-w-[20px] md:flex lg:flex " style={{ color: "#256428", fontSize: "18px", display: "flex", justifyContent: "center", verticalAlign: "top" }}>
                     <div className="min-h-[200px]">
                         {distributionHistory.map((element: any) => (
-                            <div className="flex w-full">
+                            <div className="flex w-full" key={element.id}>
                                 <div className="w-[400px]">{new Date(parseInt(element[0]?.toString()) * 1000).toLocaleString().toString()}</div>
                                 <div>{(element[1] / 1000000000).toString()} LBTC</div>
                                 <div></div>
