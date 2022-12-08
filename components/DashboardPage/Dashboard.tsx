@@ -56,7 +56,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
         try {
             var price = await yieldContract.getClaimable(account);
             setClaimable(parseInt(price) / 1000000000);
-            console.log("claimable : " + price);
+            //console.log("claimable : " + price);
             //return price;
         } catch (e) {
             setClaimable(0);
@@ -71,7 +71,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
             const jsonArray = JSON.parse(jsonString);
 
             setClaimHistory(history);
-            console.log("0 " + history[0][3]);
+            //console.log("0 " + history[0][3]);
             //console.log(jsonArray); // Output: [1, 2, 3, 4, 5]
             //console.log(jsonArray[0][0].toBigNumber());
             //console.log(history);
@@ -96,10 +96,10 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     const [owned, setOwned] = useState(0);
     const getOwnedLoka = async () => {
         try {
-            console.log("getting owned lokas " + account);
+            //console.log("getting owned lokas " + account);
             var owned = await nftContract?.getLokaOwnedBy(account);
             setOwned(owned.length);
-            console.log("got Lokas");
+            //console.log("got Lokas");
         } catch (e) {}
     };
     const checkAllowance = async () => {
@@ -116,7 +116,7 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                     const approveResult = await usdcContract.approve(process.env.lokaNFTContract, totalPrice - allowance);
                     var res = await approveResult.wait();
                 }
-                console.log("minting");
+                //console.log("minting");
                 const result = await nftContract.mintLoka(amount);
                 // await result.wait();
             } catch (error) {
