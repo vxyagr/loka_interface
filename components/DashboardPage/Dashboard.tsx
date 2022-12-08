@@ -5,7 +5,7 @@ import { chain, useNetwork, useAccount, useContract, useConnect, useSigner, useD
 import { DEFAULT_CHAIN, useLokaContext } from "../LokaWallet";
 import { ethers, providers } from "ethers";
 import React, { useState, useEffect } from "react";
-import { USDCAbi, contractAbi } from "../Contracts";
+import { USDCAbi, contractAbi, yieldContractABI } from "../Contracts";
 import Link from "next/link";
 import { Magic } from "magic-sdk";
 
@@ -16,20 +16,24 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     const { address } = useAccount();
     const { chain } = useNetwork();
 
-    const account = address;
     const [lokaChain, setLokaChain] = useState(chain?.id);
     const { data: signer, isError, isLoading } = useSigner();
 
-    const { loggedIn, magicConnector, magicSigner } = useLokaContext();
+    const { loggedIn, magicConnector, magicSigner, magicAddress } = useLokaContext();
+    const [account, setAccount] = useState(loggedIn ? magicAddress : address);
 
     const contractSigner = loggedIn ? magicSigner : signer;
     const [showConnectWallet, setShowConnectWallet] = useState(account || loggedIn ? false : true);
     const nftContract = new ethers.Contract(process.env.lokaNFTContract as string, contractAbi, contractSigner as ethers.Signer);
     const usdcContract = new ethers.Contract(process.env.USDCContract as string, USDCAbi, contractSigner as ethers.Signer);
+    const yieldContract = new ethers.Contract(process.env.lokaYieldContract as string, yieldContractABI, contractSigner as ethers.Signer);
 
     const [nftPrice, setNftPrice] = useState(0);
     const [amount, setAmount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [claimable, setClaimable] = useState(0);
+    const [claimHistory, setClaimHistory] = useState([[0, 1, 2, 3]]);
+    const [isOwner, setIsOwner] = useState(false);
     const getAvailable = async () => {
         var name = await nftContract.totalSupply();
     };
@@ -37,6 +41,10 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
     const getPrice = async () => {
         try {
             var price = await nftContract.getPrice();
+            var owner = await yieldContract.owner();
+            if (owner.toString() == account?.toString()) {
+                setIsOwner(true);
+            }
             setNftPrice(price);
             return price;
         } catch (e) {
@@ -44,11 +52,54 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
         }
     };
 
+    const getClaimable = async () => {
+        try {
+            var price = await yieldContract.getClaimable(account);
+            setClaimable(parseInt(price) / 1000000000);
+            console.log("claimable : " + price);
+            //return price;
+        } catch (e) {
+            setClaimable(0);
+        }
+    };
+    const getClaimHistory = async () => {
+        try {
+            var history = await yieldContract.getClaimHistory(account);
+            const jsonString = JSON.stringify(history);
+
+            // Use JSON.parse() to parse the JSON string and convert it to a JSON array.
+            const jsonArray = JSON.parse(jsonString);
+
+            setClaimHistory(history);
+            console.log("0 " + history[0][3]);
+            //console.log(jsonArray); // Output: [1, 2, 3, 4, 5]
+            //console.log(jsonArray[0][0].toBigNumber());
+            //console.log(history);
+        } catch (e) {
+            //console.log(e.message);
+            //setClaimable(0);
+        }
+    };
+
+    const claim = async () => {
+        try {
+            var price = await yieldContract.claim(account, 555111);
+            await price.wait();
+            await getClaimable();
+            //return price;
+        } catch (e) {
+            //console.log(e.message);
+            //setClaimable(0);
+        }
+    };
+
     const [owned, setOwned] = useState(0);
     const getOwnedLoka = async () => {
         try {
+            console.log("getting owned lokas " + account);
             var owned = await nftContract?.getLokaOwnedBy(account);
             setOwned(owned.length);
+            console.log("got Lokas");
         } catch (e) {}
     };
     const checkAllowance = async () => {
@@ -56,15 +107,16 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
         return parseInt(allowance);
     };
     const mintLoka = async () => {
-        if (totalPrice > 0) {
+        if (totalPrice > -2) {
             //approve USDC transfer
             const allowance = await checkAllowance();
+
             try {
                 if (allowance < totalPrice) {
                     const approveResult = await usdcContract.approve(process.env.lokaNFTContract, totalPrice - allowance);
                     var res = await approveResult.wait();
                 }
-
+                console.log("minting");
                 const result = await nftContract.mintLoka(amount);
                 // await result.wait();
             } catch (error) {
@@ -99,6 +151,8 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
         if (nftContract.signer) {
             getOwnedLoka();
             getPrice();
+            getClaimable();
+            getClaimHistory();
         }
         //if (account) {
         setShowConnectWallet(account || loggedIn ? false : true);
@@ -181,14 +235,18 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                     </div>
                     <div className="m-10  bg-white px-10  py-5 text-left lg:h-[300px] lg:text-center" style={{ borderRadius: "20px", justifyContent: "center", alignItems: "center" }}>
                         <div className="flex w-full text-center align-middle" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <div className="mint_number h-[80px] w-[100px]" style={{ color: "#256428", fontSize: "36px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                0.00
+                            <div className="mint_number h-[80px] w-[100px]" style={{ color: "#256428", fontSize: "18px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                {claimable}
                             </div>
                         </div>
 
                         <div className="w-full md:flex lg:flex" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <Link href="#">
-                                <button onClick={() => {}}>
+                                <button
+                                    onClick={() => {
+                                        claim();
+                                    }}
+                                >
                                     <a className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base">Claim Bitcoin</a>
                                 </button>
                             </Link>
@@ -198,9 +256,21 @@ const DashboardContent: FunctionComponent<DBProps> = ({}) => {
                 <div className="min-h-[50px] min-w-[20px] md:flex lg:flex " style={{ justifyContent: "center", alignItems: "center" }}>
                     <hr className="min-w-[500px]" />
                 </div>
-                <div className="min-w-[20px] md:flex lg:flex " style={{ color: "#256428", fontSize: "36px", display: "flex", justifyContent: "center", verticalAlign: "top" }}>
-                    <div>Claim History</div>
-                    <div className="min-h-[200px]"></div>
+                <div className="min-w-[20px] " style={{ color: "#256428", fontSize: "36px", display: "flex", justifyContent: "center", verticalAlign: "top" }}>
+                    <div>{isOwner ? <Link href="/admin">Claim History</Link> : <p>Claim History</p>}</div>
+                </div>
+                <div className="min-h-[50px] min-w-[20px] md:flex lg:flex " style={{ justifyContent: "center", alignItems: "center" }}>
+                    <div className="min-h-[200px]" style={{ color: "#256428", fontSize: "18px", display: "flex", justifyContent: "center", verticalAlign: "top" }}>
+                        <div className="h-[100%] pb-[100px]">
+                            {claimHistory.map((element: any) => (
+                                <div className="flex w-full">
+                                    <div className="w-[400px]">{new Date(parseInt(element[0].toString()) * 1000).toString()}</div>
+                                    <div>{(element[2] / 1000000000000000000).toString()} LBTC</div>
+                                    <div></div>
+                                </div>
+                            ))}
+                        </div>{" "}
+                    </div>
                 </div>
                 <div className=" h-[120px] w-full justify-center overflow-hidden bg-[#256428] pt-[30px] text-center text-white ">© Loka Labs @2022</div>
             </div>

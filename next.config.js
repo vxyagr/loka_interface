@@ -12,5 +12,6 @@ module.exports = {
         PRIVATE_KEY: process.env.PRIVATE_KEY,
         HOTWALLET_KEY: process.env.HOTWALLET_KEY,
         HOTWALLET_PUBLIC: process.env.HOTWALLET_PUBLIC,
+        CHAIN: process.env.CHAIN,
     },
 };

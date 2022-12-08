@@ -14,7 +14,15 @@ import { ethers } from "ethers";
 export const connectorStorageKey = "lokaConnectors.wallet";
 // Configure chains & providers with the Alchemy provider.
 // Two popular providers are Alchemy (alchemy.com) and Infura (infura.io)
-export const DEFAULT_CHAIN = chain.polygon;
+function getDefaultChain() {
+    if (process.env.CHAIN == "dev") {
+        console.log("CHAIN  : test network");
+        return chain.polygonMumbai;
+    } else {
+        return chain.polygon;
+    }
+}
+export const DEFAULT_CHAIN = getDefaultChain();
 const { chains, provider, webSocketProvider } = configureChains([DEFAULT_CHAIN], [alchemyProvider({ apiKey: "PuewTEZNa3_23HormMTi3Dt1wVkgD_u_" }), publicProvider()]);
 
 export const formatAddress = (address: string) => {
